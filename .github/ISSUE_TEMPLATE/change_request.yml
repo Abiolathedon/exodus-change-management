@@ -1,0 +1,80 @@
+name: "Change Request (CR)"
+description: "Submit a controlled infrastructure change"
+title: "[CR]: "
+labels: ["change-request"]
+
+body:
+  - type: input
+    id: change_id
+    attributes:
+      label: Change Request ID
+      placeholder: CR-XXX
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Change Type
+      options:
+        - validation
+        - remediation
+        - BAU (Business As Usual)
+    validations:
+      required: true
+
+  - type: input
+    id: scope
+    attributes:
+      label: Scope of Change
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk Level
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: textarea
+    id: pre_validation
+    attributes:
+      label: Pre-Validation Evidence
+      description: Provide system state before change
+    validations:
+      required: true
+
+  - type: textarea
+    id: execution
+    attributes:
+      label: Execution Plan
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback Plan
+    validations:
+      required: true
+
+  - type: textarea
+    id: post_validation
+    attributes:
+      label: Post-Validation Evidence
+      description: Provide proof after execution
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome / Closure Notes
+    validations:
+      required: true
+
