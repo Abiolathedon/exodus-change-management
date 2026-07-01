@@ -1,0 +1,29 @@
+all:
+  children:
+
+    linux:
+      children:
+
+        observability:
+          hosts:
+            exodus-observability-01:
+
+        grafana:
+          hosts:
+            exodus-grafana-01:
+
+        ingress:
+          hosts:
+            exodus-ingress-01:
+
+        logging:
+          hosts:
+            exodus-logging-01:
+
+        automation:
+          hosts:
+            exodus-automation-01:
+
+    identity:
+      hosts:
+        exodus-ad-01:

@@ -1,0 +1,19 @@
+# Ansible retry files
+*.retry
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Vim swap files
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+
+# Log files
+*.log
