@@ -1,15 +1,58 @@
-name: "Change Request (CR)"
-description: "Submit a controlled infrastructure change"
-title: "[CR]: "
-labels: ["change-request"]
+name: "Enterprise Engineering Change Record"
+description: "Submit a governed EXODUS engineering change, validation, remediation, or implementation record."
+title: "[CR-XXX] "
+labels:
+  - change-request
 assignees: []
 
 body:
   - type: input
-    id: change_id
+    id: change_request_id
     attributes:
       label: Change Request ID
-      placeholder: CR-XXX
+      placeholder: CR-013
+    validations:
+      required: true
+
+  - type: input
+    id: parent_change_request
+    attributes:
+      label: Parent Change Request
+      placeholder: CR-013 Phase 6 Automation Governance Foundation
+    validations:
+      required: true
+
+  - type: input
+    id: phase
+    attributes:
+      label: Phase
+      placeholder: Phase 6.6.8
+    validations:
+      required: true
+
+  - type: input
+    id: engineering_activity
+    attributes:
+      label: Engineering Activity
+      placeholder: Enterprise Operational Playbook Foundation
+    validations:
+      required: true
+
+  - type: dropdown
+    id: engineering_domain
+    attributes:
+      label: Engineering Domain
+      options:
+        - Automation
+        - Platform
+        - Identity
+        - Monitoring
+        - Logging
+        - Networking
+        - Security
+        - Governance
+        - Documentation
+        - Change Management
     validations:
       required: true
 
@@ -18,21 +61,18 @@ body:
     attributes:
       label: Change Type
       options:
-        - validation
-        - remediation
-        - BAU (Business As Usual)
-    validations:
-      required: true
-
-  - type: input
-    id: scope
-    attributes:
-      label: Scope of Change
+        - New Implementation
+        - Enhancement
+        - Remediation
+        - Validation
+        - Governance
+        - Documentation
+        - BAU
     validations:
       required: true
 
   - type: dropdown
-    id: risk
+    id: risk_level
     attributes:
       label: Risk Level
       options:
@@ -43,24 +83,80 @@ body:
       required: true
 
   - type: textarea
-    id: pre_validation
+    id: business_objective
     attributes:
-      label: Pre-Validation Evidence
-      description: Provide system state before change
+      label: Business Objective
     validations:
       required: true
 
   - type: textarea
-    id: execution
+    id: engineering_objective
+    attributes:
+      label: Engineering Objective
+    validations:
+      required: true
+
+  - type: textarea
+    id: authoritative_reference
+    attributes:
+      label: Authoritative Reference
+      description: Reference the Authoritative Archive, prior phase, runbook, pattern, or decision.
+    validations:
+      required: true
+
+  - type: textarea
+    id: known_good_pattern
+    attributes:
+      label: Known Good Pattern
+    validations:
+      required: true
+
+  - type: textarea
+    id: architecture_decision
+    attributes:
+      label: Architecture Decision
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_state
+    attributes:
+      label: Expected State
+    validations:
+      required: true
+
+  - type: textarea
+    id: in_scope
+    attributes:
+      label: In Scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of Scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: execution_plan
     attributes:
       label: Execution Plan
     validations:
       required: true
 
   - type: textarea
-    id: rollback
+    id: pre_validation
     attributes:
-      label: Rollback Plan
+      label: Pre-Validation Evidence
+    validations:
+      required: true
+
+  - type: textarea
+    id: runtime_validation
+    attributes:
+      label: Runtime Validation Evidence
     validations:
       required: true
 
@@ -68,14 +164,60 @@ body:
     id: post_validation
     attributes:
       label: Post-Validation Evidence
-      description: Provide proof after execution
     validations:
       required: true
 
   - type: textarea
-    id: outcome
+    id: rollback_plan
     attributes:
-      label: Outcome / Closure Notes
+      label: Rollback Plan
     validations:
-      required: true  
-      
+      required: true
+
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+    validations:
+      required: true
+
+  - type: textarea
+    id: engineering_lessons
+    attributes:
+      label: Engineering Lessons Learned
+    validations:
+      required: false
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Not Started
+        - In Progress
+        - Validation
+        - Completed
+        - Closed
+    validations:
+      required: true
+
+  - type: textarea
+    id: closure_summary
+    attributes:
+      label: Closure Summary
+    validations:
+      required: false
+
+  - type: textarea
+    id: next_engineering_anchor
+    attributes:
+      label: Next Engineering Anchor
+    validations:
+      required: false
