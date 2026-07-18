@@ -1,16 +1,105 @@
 name: "Enterprise Engineering Change Record"
-description: "Submit a governed EXODUS engineering change, validation, remediation, or implementation record."
+
+description: >
+  Submit a governed EXODUS architecture, design, implementation,
+  validation, remediation, troubleshooting, documentation,
+  operational, automation, cloud, security, reliability,
+  or platform engineering activity.
+
 title: "[CR-XXX] "
+
 labels:
   - change-request
+  - review-required
+
 assignees: []
 
 body:
+
+################################################################################
+# TEMPLATE INFORMATION
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        # EXODUS Enterprise Engineering Change Record
+
+        **Template Version:** 4.0  
+        **Version Classification:** Major
+
+        **Engineering justification**
+
+        Version 4.0 expands the Enterprise Engineering Change Record
+        into the canonical governance template for the complete EXODUS
+        engineering lifecycle.
+
+        It supports:
+
+        - On-premises infrastructure
+        - Linux and Windows platforms
+        - Identity and access management
+        - Monitoring and logging
+        - Infrastructure automation
+        - Infrastructure as Code
+        - CI/CD
+        - Cloud engineering
+        - Containers and Kubernetes
+        - GitOps
+        - Security engineering
+        - Backup and disaster recovery
+        - Site Reliability Engineering
+        - Platform engineering
+
+        The established engineering lifecycle remains:
+
+        Architecture  
+        ↓  
+        Design  
+        ↓  
+        Engineering Decision  
+        ↓  
+        Controlled Implementation  
+        ↓  
+        Runtime Validation  
+        ↓  
+        Documentation  
+        ↓  
+        Knowledge Capture  
+        ↓  
+        Formal Closure
+
+        The permanent EXODUS engineering workflow remains:
+
+        Known Good  
+        ↓  
+        Extract  
+        ↓  
+        Compare  
+        ↓  
+        Decide  
+        ↓  
+        Implement  
+        ↓  
+        Validate  
+        ↓  
+        Document
+
+        Complete planning fields before implementation.
+
+        Never invent commands, results, runtime evidence,
+        validation evidence, or closure evidence.
+
+################################################################################
+# ENGINEERING IDENTIFICATION
+################################################################################
+
   - type: input
     id: change_request_id
     attributes:
-      label: Change Request ID
-      placeholder: CR-013
+      label: Engineering Change Record ID
+      description: Enter the governed EXODUS Change Request or child issue identifier.
+      placeholder: CR-013.001
     validations:
       required: true
 
@@ -18,40 +107,96 @@ body:
     id: parent_change_request
     attributes:
       label: Parent Change Request
-      placeholder: CR-013 Phase 6 Automation Governance Foundation
+      description: Enter the parent EXODUS Change Request.
+      placeholder: CR-013 — Phase 6 Automation Governance Foundation
     validations:
       required: true
 
   - type: input
-    id: phase
+    id: parent_github_issue
     attributes:
-      label: Phase
+      label: Parent GitHub Issue
+      description: Enter the parent issue number or Not Applicable.
+      placeholder: "#17"
+    validations:
+      required: true
+
+  - type: input
+    id: engineering_phase
+    attributes:
+      label: Engineering Phase
       placeholder: Phase 6.6.8
     validations:
       required: true
 
   - type: input
-    id: engineering_activity
+    id: worksheet
     attributes:
-      label: Engineering Activity
-      placeholder: Enterprise Operational Playbook Foundation
+      label: Engineering Worksheet
+      placeholder: 06.6w
+    validations:
+      required: true
+
+  - type: input
+    id: github_milestone
+    attributes:
+      label: GitHub Milestone
+      placeholder: EXODUS-Sprint-Phase6-Automation
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING CLASSIFICATION
+################################################################################
+
+  - type: dropdown
+    id: engineering_record_type
+    attributes:
+      label: Engineering Record Type
+      options:
+        - Operational Engineering Change Record
+        - Platform Engineering Change Record
+        - Programme Engineering Change Record
+        - Architecture Decision Record
+        - Troubleshooting and Remediation Record
+        - Security Engineering Record
+        - Reliability Engineering Record
+        - Documentation and Governance Record
     validations:
       required: true
 
   - type: dropdown
     id: engineering_domain
     attributes:
-      label: Engineering Domain
+      label: Primary Engineering Domain
       options:
-        - Automation
-        - Platform
-        - Identity
+        - Enterprise Architecture
+        - Platform Engineering
+        - Linux
+        - Windows
+        - Identity and Access Management
+        - Active Directory
+        - Networking
+        - DNS
+        - Storage
+        - Security
         - Monitoring
         - Logging
-        - Networking
-        - Security
-        - Governance
+        - Automation
+        - Infrastructure as Code
+        - Git
+        - GitHub
+        - CI/CD
+        - Cloud
+        - Containers
+        - Kubernetes
+        - Service Mesh
+        - GitOps
+        - Backup and Disaster Recovery
+        - Site Reliability Engineering
+        - Internal Developer Platform
         - Documentation
+        - Governance
         - Change Management
     validations:
       required: true
@@ -61,31 +206,224 @@ body:
     attributes:
       label: Change Type
       options:
+        - Architecture
+        - Design
         - New Implementation
         - Enhancement
-        - Remediation
         - Validation
-        - Governance
+        - Remediation
+        - Troubleshooting
+        - Standardisation
+        - Operational Runbook
         - Documentation
-        - BAU
+        - Governance
+        - Migration
+        - Upgrade
+        - Retirement
+        - Emergency Change
     validations:
       required: true
 
   - type: dropdown
-    id: risk_level
+    id: business_priority
     attributes:
-      label: Risk Level
+      label: Business Priority
+      description: Priority records urgency. It is separate from engineering risk.
       options:
-        - Low
-        - Medium
+        - Critical
         - High
+        - Medium
+        - Low
     validations:
       required: true
+
+  - type: dropdown
+    id: target_environment
+    attributes:
+      label: Target Environment
+      options:
+        - Laboratory
+        - Development
+        - Test
+        - Staging
+        - Production
+        - Disaster Recovery
+        - Multiple Environments
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment_model
+    attributes:
+      label: Deployment Model
+      options:
+        - On-Premises
+        - AWS
+        - Azure
+        - Google Cloud
+        - Hybrid Cloud
+        - Multi-Cloud
+        - SaaS or Managed Service
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_platforms
+    attributes:
+      label: Affected Platforms or Services
+      description: Select every platform or service materially affected.
+      multiple: true
+      options:
+        - VMware and Virtualisation
+        - Linux Platform
+        - Windows Platform
+        - Identity and Access Management
+        - Active Directory
+        - DNS and Networking
+        - Ingress and Load Balancing
+        - Monitoring and Alerting
+        - Logging and Security Analytics
+        - Automation Control Plane
+        - Git and GitHub
+        - CI/CD Platform
+        - Container Platform
+        - Kubernetes
+        - Service Mesh
+        - GitOps Platform
+        - Backup and Disaster Recovery
+        - Cloud Platform
+        - Internal Developer Platform
+        - Documentation and Governance
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: technology_stack
+    attributes:
+      label: Technology Stack
+      description: >
+        List the products, platforms, operating systems, protocols,
+        modules, providers, operators, services, languages,
+        frameworks, and repositories involved.
+      placeholder: |
+        RHEL 9
+        Ansible Core 2.14
+        GitHub
+        Prometheus
+        Terraform
+        AWS
+        Kubernetes
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING ASSIGNMENT
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Assignment
+
+        **Professional explanation**
+
+        This section establishes engineering ownership,
+        accountability, support level, decision authority,
+        execution responsibility, and review responsibility.
+
+        **Layman's explanation**
+
+        This records who is doing the work, who is leading,
+        who makes the final technical decision, and who checks
+        that the work was completed correctly.
+
+  - type: input
+    id: engineer_name
+    attributes:
+      label: Engineer Name
+      placeholder: Abiola Osota
+    validations:
+      required: true
+
+  - type: input
+    id: primary_engineer_role
+    attributes:
+      label: Primary Engineer and Role
+      placeholder: Abiola Osota — Platform Engineer (L3)
+    validations:
+      required: true
+
+  - type: textarea
+    id: supporting_engineers
+    attributes:
+      label: Supporting Engineers
+      description: Enter supporting engineers, reviewers, architects, or Not Applicable.
+      placeholder: |
+        Enterprise Architect
+        Senior Linux Engineer
+        Senior DevOps Engineer
+    validations:
+      required: true
+
+  - type: dropdown
+    id: support_level
+    attributes:
+      label: Engineering Support Level
+      options:
+        - L1
+        - L2
+        - L3
+        - Enterprise Architect
+        - L2 Execution with L3 Governance
+        - L3 Execution with Enterprise Architect Oversight
+    validations:
+      required: true
+
+  - type: input
+    id: engineering_decision_owner
+    attributes:
+      label: Engineering Decision Owner
+      placeholder: Enterprise Architect
+    validations:
+      required: true
+
+  - type: input
+    id: engineering_reviewer
+    attributes:
+      label: Engineering Reviewer
+      placeholder: Platform Engineer (L3)
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING CONTEXT
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Context
+
+        **Professional explanation**
+
+        Engineering work begins by defining the business need,
+        technical objective, problem statement, timing, scope,
+        and expected outcome before implementation begins.
+
+        **Layman's explanation**
+
+        Explain what needs to be done, why it matters,
+        why it is being done now, and what a successful result
+        should look like.
 
   - type: textarea
     id: business_objective
     attributes:
       label: Business Objective
+      description: Explain the operational or organisational value.
     validations:
       required: true
 
@@ -93,37 +431,390 @@ body:
     id: engineering_objective
     attributes:
       label: Engineering Objective
+      description: Explain the required technical outcome.
     validations:
       required: true
 
   - type: textarea
-    id: authoritative_reference
+    id: problem_statement
     attributes:
-      label: Authoritative Reference
-      description: Reference the Authoritative Archive, prior phase, runbook, pattern, or decision.
+      label: Problem Statement
+      description: Describe the validated problem, requirement, or capability gap.
     validations:
       required: true
 
   - type: textarea
-    id: known_good_pattern
+    id: engineering_question
     attributes:
-      label: Known Good Pattern
+      label: Engineering Question
+      description: State the main engineering question this activity must answer.
     validations:
       required: true
 
   - type: textarea
-    id: architecture_decision
+    id: why_this_activity_exists
     attributes:
-      label: Architecture Decision
+      label: Why This Engineering Activity Exists
     validations:
       required: true
 
   - type: textarea
-    id: expected_state
+    id: why_now
     attributes:
-      label: Expected State
+      label: Why Now
+      description: Explain why this work is required at this stage of the programme.
     validations:
       required: true
+
+  - type: textarea
+    id: expected_engineering_outcome
+    attributes:
+      label: Expected Engineering Outcome
+    validations:
+      required: true
+
+################################################################################
+# AUTHORITATIVE CONTEXT
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Authoritative Context
+
+        **Professional explanation**
+
+        All engineering decisions must be traceable to controlled
+        sources and validated evidence.
+
+        **Layman's explanation**
+
+        Record where the information came from so nobody needs
+        to rely on memory or guesswork.
+
+  - type: textarea
+    id: authoritative_sources
+    attributes:
+      label: Authoritative Sources
+      description: >
+        Reference the Authoritative Archive, current handoff,
+        architecture documents, standards, issues, runbooks,
+        vendor documentation, and validated runtime evidence.
+      placeholder: |
+        EXODUS_AUTHORITATIVE_MASTER_ARCHIVE.yaml
+        Current engineering handoff
+        GitHub issue #17
+        Vendor documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: known_good_reference
+    attributes:
+      label: Known-Good Reference
+      description: Identify the known-good system, configuration, process, or baseline.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_state_evidence
+    attributes:
+      label: Current-State Evidence
+      description: Record validated evidence describing the current state.
+    validations:
+      required: true
+
+  - type: textarea
+    id: comparison_summary
+    attributes:
+      label: Known-Good Comparison Summary
+      description: Explain the differences between the current state and known-good reference.
+    validations:
+      required: true
+
+################################################################################
+# CONFIGURATION DIFFERENCE CLASSIFICATION
+################################################################################
+
+  - type: dropdown
+    id: configuration_difference_classification
+    attributes:
+      label: Configuration Difference Classification
+      description: >
+        Never classify configuration drift from textual difference alone.
+        Validate architectural history, runtime behaviour, and operational impact.
+      options:
+        - No Difference
+        - Approved Architectural Decision
+        - Historical Implementation Difference
+        - Documentation Gap
+        - Configuration Drift
+        - Operational Drift
+        - Security Drift
+        - Governance Drift
+        - Investigation Required
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: difference_classification_evidence
+    attributes:
+      label: Difference Classification Evidence
+      description: >
+        Record architectural history, runtime validation,
+        operational impact, and evidence supporting the classification.
+    validations:
+      required: true
+
+################################################################################
+# ARCHITECTURE AND DESIGN
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Architecture and Design
+
+        **Professional explanation**
+
+        Architecture defines the required capability and governing
+        principles. Design defines how the approved architecture
+        will be implemented.
+
+        **Layman's explanation**
+
+        Architecture explains what the solution must achieve.
+        Design explains how it will be built.
+
+  - type: textarea
+    id: architecture_summary
+    attributes:
+      label: Architecture Summary
+      description: Describe the approved target architecture and governing principles.
+    validations:
+      required: true
+
+  - type: textarea
+    id: design_summary
+    attributes:
+      label: Design Summary
+      description: Describe the proposed implementation design.
+    validations:
+      required: true
+
+  - type: textarea
+    id: architecture_constraints
+    attributes:
+      label: Architecture Constraints
+      description: Record technical, security, governance, operational, or platform constraints.
+    validations:
+      required: true
+
+  - type: textarea
+    id: assumptions
+    attributes:
+      label: Assumptions
+      description: Record assumptions requiring validation. Enter None if no assumptions exist.
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Engineering Dependencies
+      description: Record systems, teams, services, issues, approvals, or artefacts required.
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING DECISION
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Decision
+
+        **Professional explanation**
+
+        Record the selected technical decision, supporting evidence,
+        considered alternatives, rejected alternatives, trade-offs,
+        and consequences.
+
+        **Layman's explanation**
+
+        Explain what option was chosen, why it was chosen,
+        what other options were considered, and why they were not used.
+
+  - type: textarea
+    id: engineering_decision
+    attributes:
+      label: Engineering Decision
+    validations:
+      required: true
+
+  - type: textarea
+    id: engineering_reason
+    attributes:
+      label: Engineering Reason
+      description: Explain why the selected decision is technically and operationally appropriate.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives_considered
+    attributes:
+      label: Alternatives Considered
+    validations:
+      required: true
+
+  - type: textarea
+    id: rejected_alternatives
+    attributes:
+      label: Rejected Alternatives and Reasons
+    validations:
+      required: true
+
+  - type: textarea
+    id: decision_tradeoffs
+    attributes:
+      label: Decision Trade-Offs
+      description: Record benefits, limitations, costs, complexity, and operational consequences.
+    validations:
+      required: true
+
+  - type: textarea
+    id: decision_evidence
+    attributes:
+      label: Decision Evidence
+      description: Record evidence supporting the engineering decision.
+    validations:
+      required: true
+
+################################################################################
+# ENTERPRISE STANDARD ADOPTION
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Enterprise Standard Adoption
+
+        Record every enterprise standard, methodology,
+        control, framework, or best practice adopted.
+
+  - type: textarea
+    id: enterprise_standards_adopted
+    attributes:
+      label: Enterprise Standards Adopted
+      placeholder: |
+        Separation of Duties
+        Least Privilege
+        Infrastructure as Code
+        Idempotency
+        Validation Gates
+        Change Enablement
+    validations:
+      required: true
+
+  - type: textarea
+    id: standard_professional_explanation
+    attributes:
+      label: Professional Explanation of the Standards
+      description: Explain what each standard means and why enterprises adopt it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: standard_layman_explanation
+    attributes:
+      label: Layman's Explanation of the Standards
+      description: Explain the same standards in simple language.
+    validations:
+      required: true
+
+  - type: textarea
+    id: standard_exodus_application
+    attributes:
+      label: Application to EXODUS
+      description: Explain how each standard applies to the current engineering activity.
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk_if_standard_ignored
+    attributes:
+      label: Risk if the Standard Is Ignored
+    validations:
+      required: true
+
+################################################################################
+# INTERVIEW PERSPECTIVE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Interview Perspective
+
+        Every significant engineering activity must support
+        professional learning and interview preparation.
+
+  - type: textarea
+    id: professional_interview_question
+    attributes:
+      label: Professional Interview Question
+    validations:
+      required: true
+
+  - type: textarea
+    id: professional_interview_answer
+    attributes:
+      label: Professional Interview Answer
+      description: Answer using enterprise terminology and engineering best practices.
+    validations:
+      required: true
+
+  - type: textarea
+    id: layman_interview_question
+    attributes:
+      label: Layman's Interview Question
+      description: Rephrase the same concept in simple language.
+    validations:
+      required: true
+
+  - type: textarea
+    id: layman_interview_answer
+    attributes:
+      label: Layman's Interview Answer
+    validations:
+      required: true
+
+  - type: textarea
+    id: interview_follow_up_questions
+    attributes:
+      label: Common Interview Follow-Up Questions
+    validations:
+      required: true
+
+  - type: textarea
+    id: interview_common_mistakes
+    attributes:
+      label: Common Interview Mistakes
+    validations:
+      required: true
+
+################################################################################
+# SCOPE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Scope
+
+        Define exactly what is included and excluded.
 
   - type: textarea
     id: in_scope
@@ -140,30 +831,680 @@ body:
       required: true
 
   - type: textarea
-    id: execution_plan
+    id: affected_assets
     attributes:
-      label: Execution Plan
+      label: Affected Assets
+      description: >
+        List hosts, clusters, services, applications,
+        repositories, networks, accounts, environments,
+        subscriptions, projects, or namespaces.
+    validations:
+      required: true
+
+################################################################################
+# ISSUE RELATIONSHIPS
+################################################################################
+
+  - type: input
+    id: blocked_by
+    attributes:
+      label: Blocked By
+      placeholder: "#20 or Not Applicable"
+    validations:
+      required: true
+
+  - type: input
+    id: blocks
+    attributes:
+      label: Blocks
+      placeholder: "#24 or Not Applicable"
     validations:
       required: true
 
   - type: textarea
-    id: pre_validation
+    id: related_issues
     attributes:
-      label: Pre-Validation Evidence
+      label: Related Issues and Engineering Records
+      placeholder: |
+        #17
+        #21
+        CR-013
+        ADR-004
+    validations:
+      required: true
+
+################################################################################
+# RISK AND GOVERNANCE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Risk and Governance
+
+        **Professional explanation**
+
+        Risk assessment identifies the probability and impact
+        of failure before implementation and establishes controls
+        to reduce operational exposure.
+
+        **Layman's explanation**
+
+        Think about what could go wrong before making changes,
+        then prepare how to reduce the damage or recover safely.
+
+  - type: dropdown
+    id: risk_level
+    attributes:
+      label: Engineering Risk Level
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: blast_radius
+    attributes:
+      label: Potential Blast Radius
+      options:
+        - Single File or Document
+        - Single User
+        - Single Host
+        - Multiple Hosts
+        - Single Service
+        - Multiple Services
+        - Single Environment
+        - Multiple Environments
+        - Organisation-Wide
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: identified_risks
+    attributes:
+      label: Identified Risks
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk_mitigation
+    attributes:
+      label: Risk Mitigation
+    validations:
+      required: true
+
+  - type: textarea
+    id: failure_impact
+    attributes:
+      label: Potential Failure Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: operational_impact
+    attributes:
+      label: Operational Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: security_impact
+    attributes:
+      label: Security Impact
+    validations:
+      required: true
+
+################################################################################
+# CHANGE WINDOW AND APPROVAL
+################################################################################
+
+  - type: dropdown
+    id: change_window
+    attributes:
+      label: Change Window
+      options:
+        - No Runtime Change
+        - Laboratory Execution
+        - Standard Business Hours
+        - Approved Maintenance Window
+        - Emergency Change Window
+        - Continuous Delivery Window
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: approval_status
+    attributes:
+      label: Approval Status
+      options:
+        - Not Required
+        - Pending
+        - Approved
+        - Conditionally Approved
+        - Rejected
+    validations:
+      required: true
+
+  - type: textarea
+    id: approval_evidence
+    attributes:
+      label: Approval Evidence
+      description: Record approval authority, review evidence, conditions, or Not Applicable.
+    validations:
+      required: true
+
+################################################################################
+# SECURITY, DATA, AND COMPLIANCE
+################################################################################
+
+  - type: dropdown
+    id: data_classification
+    attributes:
+      label: Data Classification
+      options:
+        - Public
+        - Internal
+        - Confidential
+        - Restricted
+        - No Data Involved
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: security_change_classification
+    attributes:
+      label: Security Change Classification
+      options:
+        - No Security Change
+        - Authentication Change
+        - Authorisation Change
+        - Network Security Change
+        - Encryption or Key Management Change
+        - Secrets Management Change
+        - Vulnerability Remediation
+        - Security Hardening
+        - Logging or Audit Change
+        - Multiple Security Domains
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: least_privilege_assessment
+    attributes:
+      label: Least-Privilege Assessment
+    validations:
+      required: true
+
+  - type: textarea
+    id: secrets_and_credentials
+    attributes:
+      label: Secrets and Credentials Impact
+      description: Record credential handling, secret storage, key rotation, exposure risk, or Not Applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: compliance_impact
+    attributes:
+      label: Compliance and Policy Impact
+      description: Record relevant regulatory, contractual, security, organisational, or governance controls.
+    validations:
+      required: true
+
+################################################################################
+# VERSION GOVERNANCE
+################################################################################
+
+  - type: dropdown
+    id: version_change_required
+    attributes:
+      label: Does This Activity Change a Versioned Artefact?
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: version_change_type
+    attributes:
+      label: Version Change Classification
+      options:
+        - Not Applicable
+        - Major
+        - Minor
+        - Patch
+    validations:
+      required: true
+
+  - type: input
+    id: current_version
+    attributes:
+      label: Current Version
+      placeholder: 3.0 or Not Applicable
+    validations:
+      required: true
+
+  - type: input
+    id: proposed_version
+    attributes:
+      label: Proposed Version
+      placeholder: 4.0 or Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: version_change_reason
+    attributes:
+      label: Version Change Reason
+      description: Explain why the version must change.
+    validations:
+      required: true
+
+  - type: textarea
+    id: version_level_justification
+    attributes:
+      label: Version Level Engineering Justification
+      description: Explain why major, minor, patch, or Not Applicable is appropriate.
+    validations:
+      required: true
+
+################################################################################
+# PRECONDITIONS
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Preconditions
+
+        Record everything that must be true before implementation begins.
+
+  - type: textarea
+    id: technical_preconditions
+    attributes:
+      label: Technical Preconditions
+    validations:
+      required: true
+
+  - type: textarea
+    id: governance_preconditions
+    attributes:
+      label: Governance Preconditions
+    validations:
+      required: true
+
+  - type: textarea
+    id: access_preconditions
+    attributes:
+      label: Access and Permission Preconditions
+    validations:
+      required: true
+
+  - type: textarea
+    id: backup_snapshot_preconditions
+    attributes:
+      label: Backup, Snapshot, or Recovery Preconditions
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pre_execution_gate
+    attributes:
+      label: Pre-Execution Gate
+      options:
+        - label: Authoritative sources reviewed
+          required: true
+        - label: Current state validated
+          required: true
+        - label: Known-good reference identified
+          required: true
+        - label: Architecture and design reviewed
+          required: true
+        - label: Risk and rollback assessed
+          required: true
+        - label: Required access confirmed
+          required: true
+        - label: Implementation sequence reviewed
+          required: true
+
+################################################################################
+# IMPLEMENTATION PLAN
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Controlled Implementation Plan
+
+        Document the implementation sequence before commands are executed.
+
+  - type: textarea
+    id: implementation_plan
+    attributes:
+      label: Implementation Plan
+      description: Provide the ordered implementation steps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: execution_context
+    attributes:
+      label: Execution Context
+      description: >
+        Record the expected prompt, workstation, control plane,
+        repository, host, cluster, namespace, account, subscription,
+        region, or execution environment.
+      placeholder: AB@Desktop ~/exodus-change-management $
+    validations:
+      required: true
+
+  - type: dropdown
+    id: implementation_method
+    attributes:
+      label: Implementation Method
+      options:
+        - Manual Command
+        - Script
+        - Ansible
+        - Terraform
+        - CloudFormation
+        - GitHub Actions
+        - Jenkins
+        - Kubernetes Manifest
+        - Helm
+        - Argo CD
+        - API
+        - Configuration File
+        - Documentation Only
+        - Multiple Methods
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_outcome
+    attributes:
+      label: Expected Outcome
+    validations:
+      required: true
+
+################################################################################
+# COMMAND GOVERNANCE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Command Governance
+
+        For every command, document:
+
+        - Engineering decision
+        - Engineering reason
+        - Risk
+        - Expected outcome
+        - Validation method
+        - Rollback method
+        - Professional explanation
+        - Layman's explanation
+        - Every flag, option, module, and argument
+
+        Short commands remain on one line.
+
+        Long commands must be wrapped for readability.
+
+        When wrapping commands:
+
+        - Keep the opening quote on the first line.
+        - Keep the closing quote on the final command line.
+        - Do not create unnecessary horizontal scrolling.
+        - Execute one command at a time.
+
+  - type: textarea
+    id: commands_planned
+    attributes:
+      label: Planned Commands or Configuration Changes
+      render: shell
+      description: Enter planned commands only. Do not invent executed output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_engineering_decision
+    attributes:
+      label: Command Engineering Decision and Reason
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_risk
+    attributes:
+      label: Command Risk
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_expected_output
+    attributes:
+      label: Expected Command Output
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_validation_method
+    attributes:
+      label: Command Validation Method
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_rollback_method
+    attributes:
+      label: Command Rollback Method
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_professional_explanation
+    attributes:
+      label: Professional Command Explanation
+      description: Explain every command, flag, option, module, argument, and expected output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_layman_explanation
+    attributes:
+      label: Layman's Command Explanation
+    validations:
+      required: true
+
+################################################################################
+# VALIDATION STRATEGY
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Validation Strategy
+
+        Implementation is not complete until the expected outcome
+        is objectively validated.
+
+  - type: textarea
+    id: pre_change_validation
+    attributes:
+      label: Pre-Change Validation
+      description: Record the validations required before implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: syntax_static_validation
+    attributes:
+      label: Syntax and Static Validation
+      description: Record YAML, JSON, linting, schema, policy, plan, dry-run, or syntax checks.
     validations:
       required: true
 
   - type: textarea
     id: runtime_validation
     attributes:
-      label: Runtime Validation Evidence
+      label: Runtime Validation
+      description: Record how live behaviour will be validated.
     validations:
       required: true
 
   - type: textarea
-    id: post_validation
+    id: post_change_validation
     attributes:
-      label: Post-Validation Evidence
+      label: Post-Change Validation
+    validations:
+      required: true
+
+  - type: textarea
+    id: regression_validation
+    attributes:
+      label: Regression Validation
+      description: Explain how unaffected capabilities will be confirmed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: end_to_end_validation
+    attributes:
+      label: End-to-End Validation
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation_evidence_required
+    attributes:
+      label: Required Validation Evidence
+      description: Define the commands, outputs, screenshots, logs, metrics, events, or records required.
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation_success_threshold
+    attributes:
+      label: Validation Success Threshold
+      description: Define the measurable condition for success.
+    validations:
+      required: true
+
+################################################################################
+# RELIABILITY AND OBSERVABILITY
+################################################################################
+
+  - type: dropdown
+    id: availability_impact
+    attributes:
+      label: Availability Impact
+      options:
+        - No Impact
+        - Planned Interruption
+        - Degraded Service Possible
+        - High Availability Change
+        - Disaster Recovery Change
+        - Unknown and Requires Validation
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: monitoring_impact
+    attributes:
+      label: Monitoring and Alerting Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: logging_impact
+    attributes:
+      label: Logging and Audit Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: slo_sli_impact
+    attributes:
+      label: SLO, SLI, and Error-Budget Impact
+      description: Record reliability objectives, indicators, error-budget impact, or Not Applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: performance_capacity_impact
+    attributes:
+      label: Performance and Capacity Impact
+    validations:
+      required: true
+
+################################################################################
+# BACKUP AND DISASTER RECOVERY
+################################################################################
+
+  - type: dropdown
+    id: backup_impact
+    attributes:
+      label: Backup Impact
+      options:
+        - No Impact
+        - Backup Required Before Change
+        - Existing Backup Process Modified
+        - New Backup Required
+        - Restore Validation Required
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: recovery_requirements
+    attributes:
+      label: Recovery Requirements
+    validations:
+      required: true
+
+  - type: textarea
+    id: recovery_time_objective
+    attributes:
+      label: Recovery Time Objective
+      placeholder: 30 minutes or Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: recovery_point_objective
+    attributes:
+      label: Recovery Point Objective
+      placeholder: Zero data loss or Not Applicable
+    validations:
+      required: true
+
+################################################################################
+# ROLLBACK PLAN
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Rollback Plan
+
+        Rollback must be designed before implementation.
+
+  - type: textarea
+    id: rollback_trigger
+    attributes:
+      label: Rollback Trigger
+      description: Define the conditions that require rollback.
     validations:
       required: true
 
@@ -175,9 +1516,55 @@ body:
       required: true
 
   - type: textarea
-    id: deliverables
+    id: rollback_validation
     attributes:
-      label: Deliverables
+      label: Rollback Validation
+      description: Explain how successful restoration will be confirmed.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rollback_tested
+    attributes:
+      label: Rollback Tested
+      options:
+        - "Yes"
+        - "No"
+        - Planned
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback_limitations
+    attributes:
+      label: Rollback Limitations
+      description: Record irreversible actions, recovery limitations, or None.
+    validations:
+      required: true
+
+################################################################################
+# ACCEPTANCE CRITERIA
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria
+
+        Define completion before implementation begins.
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: Success Criteria
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: Definition of Done
     validations:
       required: true
 
@@ -185,39 +1572,746 @@ body:
     id: acceptance_criteria
     attributes:
       label: Acceptance Criteria
+      description: Enter measurable conditions required before the issue can close.
     validations:
       required: true
 
   - type: textarea
-    id: engineering_lessons
+    id: failure_criteria
+    attributes:
+      label: Failure Criteria
+      description: Define conditions that indicate failure, rollback, or remediation is required.
+    validations:
+      required: true
+
+################################################################################
+# INFRASTRUCTURE AS CODE AND AUTOMATION
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Infrastructure as Code and Automation
+
+        Record automation, desired-state management,
+        idempotency, reconciliation, and future reuse.
+
+  - type: dropdown
+    id: automation_change_scope
+    attributes:
+      label: Automation Change Scope
+      options:
+        - No Automation Change
+        - New Automation
+        - Existing Automation Modified
+        - Existing Automation Retired
+        - Manual Process Retained with Justification
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: infrastructure_as_code_impact
+    attributes:
+      label: Infrastructure as Code Impact
+      options:
+        - None
+        - Ansible
+        - Terraform
+        - CloudFormation
+        - Helm
+        - Kubernetes Manifests
+        - Packer or Image Build
+        - Multiple IaC Technologies
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: gitops_impact
+    attributes:
+      label: GitOps Impact
+      options:
+        - None
+        - GitOps Readiness Assessment
+        - New Declarative Resource
+        - Existing Declarative Resource Modified
+        - Reconciliation or Drift Control Changed
+        - Argo CD or Flux Integration
+        - Not Applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: idempotency_behaviour
+    attributes:
+      label: Idempotency Behaviour
+      description: Explain whether repeated execution produces the same controlled result.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reconciliation_behaviour
+    attributes:
+      label: Desired-State Reconciliation Behaviour
+      description: Explain how configuration drift or desired-state differences are detected and reconciled.
+    validations:
+      required: true
+
+  - type: textarea
+    id: automation_reusability
+    attributes:
+      label: Automation Reusability
+      description: Explain how the implementation can be reused across hosts, environments, clouds, or platforms.
+    validations:
+      required: true
+
+################################################################################
+# TESTING STRATEGY
+################################################################################
+
+  - type: textarea
+    id: testing_strategy
+    attributes:
+      label: Testing Strategy
+      description: Record unit, integration, system, security, performance, acceptance, or platform tests.
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_environment
+    attributes:
+      label: Test Environment
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_data
+    attributes:
+      label: Test Data and Test Preconditions
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_evidence
+    attributes:
+      label: Required Test Evidence
+    validations:
+      required: true
+
+################################################################################
+# USER AND BUSINESS IMPACT
+################################################################################
+
+  - type: dropdown
+    id: user_impact_level
+    attributes:
+      label: User or Customer Impact
+      options:
+        - None
+        - Low
+        - Medium
+        - High
+        - Critical
+        - Unknown and Requires Validation
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_users
+    attributes:
+      label: Affected Users, Teams, or Customers
+    validations:
+      required: true
+
+  - type: textarea
+    id: communication_plan
+    attributes:
+      label: Communication Plan
+      description: Record stakeholder communication, maintenance notice, status updates, or Not Applicable.
+    validations:
+      required: true
+
+################################################################################
+# DOCUMENTATION IMPACT
+################################################################################
+
+  - type: dropdown
+    id: documentation_update_required
+    attributes:
+      label: Documentation Update Required
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: documentation_types
+    attributes:
+      label: Documentation Types
+      options:
+        - label: Authoritative Archive
+        - label: Engineering Handoff
+        - label: Architecture Document
+        - label: Design Document
+        - label: Operational Runbook
+        - label: Troubleshooting Knowledge Base
+        - label: Repository README
+        - label: Configuration Documentation
+        - label: Security Documentation
+        - label: Disaster Recovery Documentation
+        - label: Interview Learning Record
+        - label: No documentation update required
+
+  - type: textarea
+    id: documentation_plan
+    attributes:
+      label: Documentation Plan
+      description: Explain what must be documented, when, where, and by whom.
+    validations:
+      required: true
+
+################################################################################
+# TROUBLESHOOTING KNOWLEDGE BASE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Troubleshooting Knowledge Base
+
+        Complete this section whenever troubleshooting occurs.
+
+  - type: textarea
+    id: troubleshooting_tool
+    attributes:
+      label: Troubleshooting Tool or Technology
+      placeholder: Ansible, SSH, Git, GitHub CLI, systemctl, journalctl
+    validations:
+      required: true
+
+  - type: textarea
+    id: troubleshooting_symptom
+    attributes:
+      label: Symptom
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostic_sequence
+    attributes:
+      label: Diagnostic Sequence
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostic_commands
+    attributes:
+      label: Diagnostic Commands
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed_evidence
+    attributes:
+      label: Observed Evidence
+    validations:
+      required: true
+
+  - type: textarea
+    id: engineering_interpretation
+    attributes:
+      label: Engineering Interpretation
+    validations:
+      required: true
+
+  - type: textarea
+    id: root_cause
+    attributes:
+      label: Root Cause
+    validations:
+      required: true
+
+  - type: textarea
+    id: troubleshooting_decision
+    attributes:
+      label: Troubleshooting Engineering Decision
+    validations:
+      required: true
+
+  - type: textarea
+    id: resolution
+    attributes:
+      label: Resolution
+    validations:
+      required: true
+
+  - type: textarea
+    id: troubleshooting_lesson
+    attributes:
+      label: Engineering Lesson
+    validations:
+      required: true
+
+################################################################################
+# DELIVERABLES
+################################################################################
+
+  - type: textarea
+    id: planned_deliverables
+    attributes:
+      label: Planned Deliverables
+    validations:
+      required: true
+
+  - type: textarea
+    id: completed_deliverables
+    attributes:
+      label: Completed Deliverables
+      description: Complete during implementation and closure. Do not invent future evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: artefacts_created_modified
+    attributes:
+      label: Artefacts Created or Modified
+      description: List files, repositories, playbooks, modules, templates, documents, dashboards, or resources.
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING IMPACT ASSESSMENT
+################################################################################
+
+  - type: textarea
+    id: architecture_impact
+    attributes:
+      label: Architecture Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: operational_support_impact
+    attributes:
+      label: Operational Support Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: maintainability_impact
+    attributes:
+      label: Maintainability Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: scalability_impact
+    attributes:
+      label: Scalability Impact
+    validations:
+      required: true
+
+  - type: textarea
+    id: cost_impact
+    attributes:
+      label: Cost Impact
+      description: Record financial, licensing, infrastructure, operational, or Not Applicable impact.
+    validations:
+      required: true
+
+  - type: textarea
+    id: future_phase_impact
+    attributes:
+      label: Future EXODUS Phase Impact
+      description: Explain how the change supports or constrains future programme phases.
+    validations:
+      required: true
+
+################################################################################
+# KNOWLEDGE MANAGEMENT
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Knowledge Management
+
+        Valuable engineering knowledge must become reusable
+        organisational knowledge.
+
+  - type: checkboxes
+    id: knowledge_capture
+    attributes:
+      label: Knowledge Capture Classification
+      options:
+        - label: Engineering Troubleshooting Knowledge Base candidate
+        - label: Operational Runbook candidate
+        - label: Architecture Decision Record candidate
+        - label: Enterprise Standard candidate
+        - label: Future Automation candidate
+        - label: Interview Preparation candidate
+        - label: No additional knowledge record required
+
+  - type: textarea
+    id: knowledge_reference
+    attributes:
+      label: Knowledge Reference
+      description: Record the knowledge-base location, runbook, ADR, archive section, or Not Applicable.
+    validations:
+      required: true
+
+################################################################################
+# ENGINEERING LEARNING
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Learning
+
+        Every engineering activity should improve both
+        the engineer and the organisation.
+
+  - type: textarea
+    id: skills_demonstrated
+    attributes:
+      label: Skills Demonstrated
+    validations:
+      required: true
+
+  - type: textarea
+    id: engineer_learning
+    attributes:
+      label: Engineer Learning
+    validations:
+      required: true
+
+  - type: textarea
+    id: engineering_lessons_learned
     attributes:
       label: Engineering Lessons Learned
     validations:
-      required: false
+      required: true
 
-  - type: dropdown
-    id: status
+  - type: textarea
+    id: professional_reflection
     attributes:
-      label: Status
-      options:
-        - Not Started
-        - In Progress
-        - Validation
-        - Completed
-        - Closed
+      label: Professional Reflection
     validations:
       required: true
+
+  - type: textarea
+    id: layman_reflection
+    attributes:
+      label: Layman's Reflection
+    validations:
+      required: true
+
+################################################################################
+# TECHNICAL DEBT AND MATURITY
+################################################################################
+
+  - type: dropdown
+    id: technical_debt_impact
+    attributes:
+      label: Technical Debt Impact
+      options:
+        - None
+        - Reduced
+        - Increased with Justification
+        - Eliminated
+        - Deferred
+        - Unknown and Requires Assessment
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_debt_details
+    attributes:
+      label: Technical Debt Details
+      description: Explain debt created, removed, deferred, or Not Applicable.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: engineering_maturity
+    attributes:
+      label: Engineering Maturity
+      options:
+        - Initial
+        - Repeatable
+        - Defined
+        - Managed
+        - Optimised
+    validations:
+      required: true
+
+################################################################################
+# GIT AND GITHUB GOVERNANCE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Git and GitHub Governance
+
+        GitHub is both the EXODUS source-control platform
+        and enterprise change-management platform.
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      placeholder: Abiolathedon/exodus-change-management
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: Git Branch
+      placeholder: main
+    validations:
+      required: true
+
+  - type: input
+    id: pull_request_reference
+    attributes:
+      label: Pull Request Reference
+      placeholder: "#25 or Not Applicable"
+    validations:
+      required: true
+
+  - type: textarea
+    id: commit_strategy
+    attributes:
+      label: Commit Strategy
+      description: Explain planned commit boundaries and issue references.
+    validations:
+      required: true
+
+  - type: textarea
+    id: git_validation
+    attributes:
+      label: Git Validation
+      description: Record status, diff, log, branch, remote, and working-tree validation requirements.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: github_governance_checklist
+    attributes:
+      label: GitHub Governance Checklist
+      options:
+        - label: Correct parent issue referenced
+          required: true
+        - label: Correct milestone assigned
+          required: true
+        - label: Correct labels applied
+          required: true
+        - label: Issue scope represents one engineering objective
+          required: true
+        - label: Progress updates recorded
+          required: true
+        - label: Validation evidence recorded before closure
+          required: true
+        - label: Commit or pull request references recorded
+          required: true
+        - label: Closure summary completed
+          required: true
+
+  - type: textarea
+    id: repository_evidence
+    attributes:
+      label: Repository Evidence
+      description: Record validated branch, commit, push, pull request, and publication evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: release_deployment_evidence
+    attributes:
+      label: Release and Deployment Evidence
+      description: Record pipeline, release, promotion, deployment, reconciliation, or Not Applicable evidence.
+    validations:
+      required: true
+
+################################################################################
+# QUALITY GATE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Final EXODUS Engineering Quality Gate
+
+        The Engineering Change Record cannot close until
+        every applicable gate has been satisfied.
+
+  - type: checkboxes
+    id: engineering_quality_gate
+    attributes:
+      label: Engineering Quality Gate
+      options:
+        - label: Authoritative sources reviewed
+          required: true
+        - label: Architecture reviewed
+          required: true
+        - label: Design reviewed
+          required: true
+        - label: Engineering decision documented
+          required: true
+        - label: Enterprise standards documented
+          required: true
+        - label: Risk and rollback documented
+          required: true
+        - label: Commands reviewed before execution
+          required: true
+        - label: Validation completed
+          required: true
+        - label: Regression risk assessed
+          required: true
+        - label: Documentation updated where applicable
+          required: true
+        - label: Git repository validated where applicable
+          required: true
+        - label: GitHub issue updated where applicable
+          required: true
+        - label: Authoritative Archive updated where applicable
+          required: true
+        - label: Engineering handoff updated where applicable
+          required: true
+        - label: Knowledge Base updated where applicable
+          required: true
+        - label: Acceptance criteria achieved
+          required: true
+
+################################################################################
+# STATUS
+################################################################################
+
+  - type: dropdown
+    id: engineering_status
+    attributes:
+      label: Engineering Status
+      options:
+        - Architecture
+        - Design
+        - Planned
+        - Approved
+        - In Progress
+        - Blocked
+        - Validation
+        - Documentation
+        - Completed
+        - Closed
+        - Failed
+        - Rolled Back
+    validations:
+      required: true
+
+################################################################################
+# CLOSURE
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Engineering Closure
+
+        Complete closure only after implementation,
+        validation, documentation, and governance gates
+        have been satisfied.
 
   - type: textarea
     id: closure_summary
     attributes:
       label: Closure Summary
+      description: Explain what was completed, validated, documented, and achieved.
     validations:
-      required: false
+      required: true
+
+  - type: textarea
+    id: final_validation_evidence
+    attributes:
+      label: Final Validation Evidence
+      description: Record actual validated evidence. Never invent evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: unresolved_items
+    attributes:
+      label: Unresolved Items
+      description: Record deferred work, accepted risk, technical debt, or None.
+    validations:
+      required: true
 
   - type: textarea
     id: next_engineering_anchor
     attributes:
       label: Next Engineering Anchor
+      description: Identify the next governed engineering activity.
     validations:
-      required: false
+      required: true
+
+################################################################################
+# ENGINEERING SIGN-OFF
+################################################################################
+
+  - type: input
+    id: engineering_completion_date
+    attributes:
+      label: Engineering Completion Date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: input
+    id: execution_signoff
+    attributes:
+      label: Engineering Execution Sign-Off
+      placeholder: Abiola Osota — Platform Engineer (L3)
+    validations:
+      required: true
+
+  - type: input
+    id: review_signoff
+    attributes:
+      label: Engineering Review Sign-Off
+      placeholder: Enterprise Architect
+    validations:
+      required: true
+
+  - type: dropdown
+    id: closure_decision
+    attributes:
+      label: Closure Decision
+      options:
+        - Approved for Closure
+        - Closure Rejected
+        - Additional Validation Required
+        - Remediation Required
+        - Rolled Back
+    validations:
+      required: true
+
+################################################################################
+# FINAL ENGINEERING DECLARATION
+################################################################################
+
+  - type: checkboxes
+    id: final_engineering_declaration
+    attributes:
+      label: Final Engineering Declaration
+      options:
+        - label: >
+            I confirm that this Engineering Change Record accurately
+            represents the architecture, design, decision, planning,
+            implementation, validation, evidence, documentation,
+            knowledge capture, and closure of this engineering activity.
+          required: true
+          
