@@ -1615,7 +1615,7 @@ body:
     attributes:
       label: Infrastructure as Code Impact
       options:
-        - None
+        - Not Applicable
         - Ansible
         - Terraform
         - CloudFormation
@@ -1632,7 +1632,7 @@ body:
     attributes:
       label: GitOps Impact
       options:
-        - None
+        - Not Applicable
         - GitOps Readiness Assessment
         - New Declarative Resource
         - Existing Declarative Resource Modified
@@ -1708,7 +1708,7 @@ body:
     attributes:
       label: User or Customer Impact
       options:
-        - None
+        - Not Applicable
         - Low
         - Medium
         - High
@@ -2019,7 +2019,7 @@ body:
     attributes:
       label: Technical Debt Impact
       options:
-        - None
+        - Not Applicable
         - Reduced
         - Increased with Justification
         - Eliminated
