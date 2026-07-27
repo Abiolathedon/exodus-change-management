@@ -1,10 +1,6 @@
 name: "Enterprise Engineering Change Record"
 
-description: >
-  Submit a governed EXODUS architecture, design, implementation,
-  validation, remediation, troubleshooting, documentation,
-  operational, automation, cloud, security, reliability,
-  or platform engineering activity.
+description: Submit a governed EXODUS engineering change record covering architecture, design, implementation, validation, remediation, or documentation.
 
 title: "[CR-XXX] "
 
