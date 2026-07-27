@@ -25,12 +25,22 @@ body:
       value: |
         # EXODUS Enterprise Engineering Change Record
 
-        **Template Version:** 4.0  
-        **Version Classification:** Major
+        **Template Version:** 4.1
+        **Version Classification:** Minor
 
         **Engineering justification**
 
-        Version 4.0 expands the Enterprise Engineering Change Record
+        Version 4.1 corrects two duplicate dropdown option defects
+        (infrastructure_as_code_impact and gitops_impact) that
+        prevented the GitHub Issue Form from rendering, and
+        rebalances field requirement levels so that planning fields
+        are mandatory at creation while implementation, validation,
+        and closure fields are optional until the relevant lifecycle
+        stage is reached. No engineering fields were removed. No
+        field identifiers were changed. The governance intent of
+        version 4.0 is fully preserved.
+
+        Version 4.0 expanded the Enterprise Engineering Change Record
         into the canonical governance template for the complete EXODUS
         engineering lifecycle.
 
@@ -53,36 +63,36 @@ body:
 
         The established engineering lifecycle remains:
 
-        Architecture  
-        ↓  
-        Design  
-        ↓  
-        Engineering Decision  
-        ↓  
-        Controlled Implementation  
-        ↓  
-        Runtime Validation  
-        ↓  
-        Documentation  
-        ↓  
-        Knowledge Capture  
-        ↓  
+        Architecture
+        ↓
+        Design
+        ↓
+        Engineering Decision
+        ↓
+        Controlled Implementation
+        ↓
+        Runtime Validation
+        ↓
+        Documentation
+        ↓
+        Knowledge Capture
+        ↓
         Formal Closure
 
         The permanent EXODUS engineering workflow remains:
 
-        Known Good  
-        ↓  
-        Extract  
-        ↓  
-        Compare  
-        ↓  
-        Decide  
-        ↓  
-        Implement  
-        ↓  
-        Validate  
-        ↓  
+        Known Good
+        ↓
+        Extract
+        ↓
+        Compare
+        ↓
+        Decide
+        ↓
+        Implement
+        ↓
+        Validate
+        ↓
         Document
 
         Complete planning fields before implementation.
@@ -851,7 +861,7 @@ body:
       label: Blocked By
       placeholder: "#20 or Not Applicable"
     validations:
-      required: true
+      required: false
 
   - type: input
     id: blocks
@@ -859,7 +869,7 @@ body:
       label: Blocks
       placeholder: "#24 or Not Applicable"
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: related_issues
@@ -871,7 +881,7 @@ body:
         CR-013
         ADR-004
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # RISK AND GOVERNANCE
@@ -996,7 +1006,7 @@ body:
       label: Approval Evidence
       description: Record approval authority, review evidence, conditions, or Not Applicable.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # SECURITY, DATA, AND COMPLIANCE
@@ -1040,7 +1050,7 @@ body:
     attributes:
       label: Least-Privilege Assessment
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: secrets_and_credentials
@@ -1048,7 +1058,7 @@ body:
       label: Secrets and Credentials Impact
       description: Record credential handling, secret storage, key rotation, exposure risk, or Not Applicable.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: compliance_impact
@@ -1056,7 +1066,7 @@ body:
       label: Compliance and Policy Impact
       description: Record relevant regulatory, contractual, security, organisational, or governance controls.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # VERSION GOVERNANCE
@@ -1090,7 +1100,7 @@ body:
       label: Current Version
       placeholder: 3.0 or Not Applicable
     validations:
-      required: true
+      required: false
 
   - type: input
     id: proposed_version
@@ -1098,7 +1108,7 @@ body:
       label: Proposed Version
       placeholder: 4.0 or Not Applicable
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: version_change_reason
@@ -1106,7 +1116,7 @@ body:
       label: Version Change Reason
       description: Explain why the version must change.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: version_level_justification
@@ -1114,7 +1124,7 @@ body:
       label: Version Level Engineering Justification
       description: Explain why major, minor, patch, or Not Applicable is appropriate.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # PRECONDITIONS
@@ -1146,14 +1156,14 @@ body:
     attributes:
       label: Access and Permission Preconditions
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: backup_snapshot_preconditions
     attributes:
       label: Backup, Snapshot, or Recovery Preconditions
     validations:
-      required: true
+      required: false
 
   - type: checkboxes
     id: pre_execution_gate
@@ -1204,7 +1214,7 @@ body:
         region, or execution environment.
       placeholder: AB@Desktop ~/exodus-change-management $
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: implementation_method
@@ -1274,42 +1284,42 @@ body:
       render: shell
       description: Enter planned commands only. Do not invent executed output.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_engineering_decision
     attributes:
       label: Command Engineering Decision and Reason
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_risk
     attributes:
       label: Command Risk
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_expected_output
     attributes:
       label: Expected Command Output
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_validation_method
     attributes:
       label: Command Validation Method
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_rollback_method
     attributes:
       label: Command Rollback Method
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_professional_explanation
@@ -1317,14 +1327,14 @@ body:
       label: Professional Command Explanation
       description: Explain every command, flag, option, module, argument, and expected output.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: command_layman_explanation
     attributes:
       label: Layman's Command Explanation
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # VALIDATION STRATEGY
@@ -1352,7 +1362,7 @@ body:
       label: Syntax and Static Validation
       description: Record YAML, JSON, linting, schema, policy, plan, dry-run, or syntax checks.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: runtime_validation
@@ -1360,14 +1370,14 @@ body:
       label: Runtime Validation
       description: Record how live behaviour will be validated.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: post_change_validation
     attributes:
       label: Post-Change Validation
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: regression_validation
@@ -1375,14 +1385,14 @@ body:
       label: Regression Validation
       description: Explain how unaffected capabilities will be confirmed.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: end_to_end_validation
     attributes:
       label: End-to-End Validation
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: validation_evidence_required
@@ -1424,14 +1434,14 @@ body:
     attributes:
       label: Monitoring and Alerting Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: logging_impact
     attributes:
       label: Logging and Audit Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: slo_sli_impact
@@ -1439,14 +1449,14 @@ body:
       label: SLO, SLI, and Error-Budget Impact
       description: Record reliability objectives, indicators, error-budget impact, or Not Applicable.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: performance_capacity_impact
     attributes:
       label: Performance and Capacity Impact
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # BACKUP AND DISASTER RECOVERY
@@ -1471,7 +1481,7 @@ body:
     attributes:
       label: Recovery Requirements
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: recovery_time_objective
@@ -1479,7 +1489,7 @@ body:
       label: Recovery Time Objective
       placeholder: 30 minutes or Not Applicable
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: recovery_point_objective
@@ -1487,7 +1497,7 @@ body:
       label: Recovery Point Objective
       placeholder: Zero data loss or Not Applicable
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ROLLBACK PLAN
@@ -1521,7 +1531,7 @@ body:
       label: Rollback Validation
       description: Explain how successful restoration will be confirmed.
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: rollback_tested
@@ -1541,7 +1551,7 @@ body:
       label: Rollback Limitations
       description: Record irreversible actions, recovery limitations, or None.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ACCEPTANCE CRITERIA
@@ -1582,7 +1592,7 @@ body:
       label: Failure Criteria
       description: Define conditions that indicate failure, rollback, or remediation is required.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # INFRASTRUCTURE AS CODE AND AUTOMATION
@@ -1615,7 +1625,6 @@ body:
     attributes:
       label: Infrastructure as Code Impact
       options:
-        - Not Applicable
         - Ansible
         - Terraform
         - CloudFormation
@@ -1632,7 +1641,6 @@ body:
     attributes:
       label: GitOps Impact
       options:
-        - Not Applicable
         - GitOps Readiness Assessment
         - New Declarative Resource
         - Existing Declarative Resource Modified
@@ -1648,7 +1656,7 @@ body:
       label: Idempotency Behaviour
       description: Explain whether repeated execution produces the same controlled result.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: reconciliation_behaviour
@@ -1656,7 +1664,7 @@ body:
       label: Desired-State Reconciliation Behaviour
       description: Explain how configuration drift or desired-state differences are detected and reconciled.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: automation_reusability
@@ -1664,7 +1672,7 @@ body:
       label: Automation Reusability
       description: Explain how the implementation can be reused across hosts, environments, clouds, or platforms.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # TESTING STRATEGY
@@ -1676,28 +1684,28 @@ body:
       label: Testing Strategy
       description: Record unit, integration, system, security, performance, acceptance, or platform tests.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: test_environment
     attributes:
       label: Test Environment
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: test_data
     attributes:
       label: Test Data and Test Preconditions
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: test_evidence
     attributes:
       label: Required Test Evidence
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # USER AND BUSINESS IMPACT
@@ -1722,7 +1730,7 @@ body:
     attributes:
       label: Affected Users, Teams, or Customers
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: communication_plan
@@ -1730,7 +1738,7 @@ body:
       label: Communication Plan
       description: Record stakeholder communication, maintenance notice, status updates, or Not Applicable.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # DOCUMENTATION IMPACT
@@ -1770,7 +1778,7 @@ body:
       label: Documentation Plan
       description: Explain what must be documented, when, where, and by whom.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # TROUBLESHOOTING KNOWLEDGE BASE
@@ -1789,21 +1797,21 @@ body:
       label: Troubleshooting Tool or Technology
       placeholder: Ansible, SSH, Git, GitHub CLI, systemctl, journalctl
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: troubleshooting_symptom
     attributes:
       label: Symptom
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: diagnostic_sequence
     attributes:
       label: Diagnostic Sequence
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: diagnostic_commands
@@ -1811,49 +1819,49 @@ body:
       label: Diagnostic Commands
       render: shell
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: observed_evidence
     attributes:
       label: Observed Evidence
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: engineering_interpretation
     attributes:
       label: Engineering Interpretation
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: root_cause
     attributes:
       label: Root Cause
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: troubleshooting_decision
     attributes:
       label: Troubleshooting Engineering Decision
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: resolution
     attributes:
       label: Resolution
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: troubleshooting_lesson
     attributes:
       label: Engineering Lesson
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # DELIVERABLES
@@ -1872,7 +1880,7 @@ body:
       label: Completed Deliverables
       description: Complete during implementation and closure. Do not invent future evidence.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: artefacts_created_modified
@@ -1880,7 +1888,7 @@ body:
       label: Artefacts Created or Modified
       description: List files, repositories, playbooks, modules, templates, documents, dashboards, or resources.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ENGINEERING IMPACT ASSESSMENT
@@ -1891,28 +1899,28 @@ body:
     attributes:
       label: Architecture Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: operational_support_impact
     attributes:
       label: Operational Support Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: maintainability_impact
     attributes:
       label: Maintainability Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: scalability_impact
     attributes:
       label: Scalability Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: cost_impact
@@ -1920,7 +1928,7 @@ body:
       label: Cost Impact
       description: Record financial, licensing, infrastructure, operational, or Not Applicable impact.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: future_phase_impact
@@ -1928,7 +1936,7 @@ body:
       label: Future EXODUS Phase Impact
       description: Explain how the change supports or constrains future programme phases.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # KNOWLEDGE MANAGEMENT
@@ -1961,7 +1969,7 @@ body:
       label: Knowledge Reference
       description: Record the knowledge-base location, runbook, ADR, archive section, or Not Applicable.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ENGINEERING LEARNING
@@ -1980,35 +1988,35 @@ body:
     attributes:
       label: Skills Demonstrated
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: engineer_learning
     attributes:
       label: Engineer Learning
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: engineering_lessons_learned
     attributes:
       label: Engineering Lessons Learned
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: professional_reflection
     attributes:
       label: Professional Reflection
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: layman_reflection
     attributes:
       label: Layman's Reflection
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # TECHNICAL DEBT AND MATURITY
@@ -2034,7 +2042,7 @@ body:
       label: Technical Debt Details
       description: Explain debt created, removed, deferred, or Not Applicable.
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: engineering_maturity
@@ -2083,7 +2091,7 @@ body:
       label: Pull Request Reference
       placeholder: "#25 or Not Applicable"
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: commit_strategy
@@ -2091,7 +2099,7 @@ body:
       label: Commit Strategy
       description: Explain planned commit boundaries and issue references.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: git_validation
@@ -2099,7 +2107,7 @@ body:
       label: Git Validation
       description: Record status, diff, log, branch, remote, and working-tree validation requirements.
     validations:
-      required: true
+      required: false
 
   - type: checkboxes
     id: github_governance_checklist
@@ -2115,13 +2123,9 @@ body:
         - label: Issue scope represents one engineering objective
           required: true
         - label: Progress updates recorded
-          required: true
         - label: Validation evidence recorded before closure
-          required: true
         - label: Commit or pull request references recorded
-          required: true
         - label: Closure summary completed
-          required: true
 
   - type: textarea
     id: repository_evidence
@@ -2129,7 +2133,7 @@ body:
       label: Repository Evidence
       description: Record validated branch, commit, push, pull request, and publication evidence.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: release_deployment_evidence
@@ -2137,7 +2141,7 @@ body:
       label: Release and Deployment Evidence
       description: Record pipeline, release, promotion, deployment, reconciliation, or Not Applicable evidence.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # QUALITY GATE
@@ -2151,43 +2155,32 @@ body:
         The Engineering Change Record cannot close until
         every applicable gate has been satisfied.
 
+        These gates are self-attested at closure. They are not
+        enforced as required form fields, because a change record
+        must be submittable at creation time before this evidence
+        exists.
+
   - type: checkboxes
     id: engineering_quality_gate
     attributes:
       label: Engineering Quality Gate
       options:
         - label: Authoritative sources reviewed
-          required: true
         - label: Architecture reviewed
-          required: true
         - label: Design reviewed
-          required: true
         - label: Engineering decision documented
-          required: true
         - label: Enterprise standards documented
-          required: true
         - label: Risk and rollback documented
-          required: true
         - label: Commands reviewed before execution
-          required: true
         - label: Validation completed
-          required: true
         - label: Regression risk assessed
-          required: true
         - label: Documentation updated where applicable
-          required: true
         - label: Git repository validated where applicable
-          required: true
         - label: GitHub issue updated where applicable
-          required: true
         - label: Authoritative Archive updated where applicable
-          required: true
         - label: Engineering handoff updated where applicable
-          required: true
         - label: Knowledge Base updated where applicable
-          required: true
         - label: Acceptance criteria achieved
-          required: true
 
 ################################################################################
 # STATUS
@@ -2232,7 +2225,7 @@ body:
       label: Closure Summary
       description: Explain what was completed, validated, documented, and achieved.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: final_validation_evidence
@@ -2240,7 +2233,7 @@ body:
       label: Final Validation Evidence
       description: Record actual validated evidence. Never invent evidence.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: unresolved_items
@@ -2248,7 +2241,7 @@ body:
       label: Unresolved Items
       description: Record deferred work, accepted risk, technical debt, or None.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: next_engineering_anchor
@@ -2256,7 +2249,7 @@ body:
       label: Next Engineering Anchor
       description: Identify the next governed engineering activity.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ENGINEERING SIGN-OFF
@@ -2268,7 +2261,7 @@ body:
       label: Engineering Completion Date
       placeholder: YYYY-MM-DD
     validations:
-      required: true
+      required: false
 
   - type: input
     id: execution_signoff
@@ -2276,7 +2269,7 @@ body:
       label: Engineering Execution Sign-Off
       placeholder: Abiola Osota — Platform Engineer (L3)
     validations:
-      required: true
+      required: false
 
   - type: input
     id: review_signoff
@@ -2284,13 +2277,14 @@ body:
       label: Engineering Review Sign-Off
       placeholder: Enterprise Architect
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: closure_decision
     attributes:
       label: Closure Decision
       options:
+        - Not Yet Submitted for Closure
         - Approved for Closure
         - Closure Rejected
         - Additional Validation Required
@@ -2309,9 +2303,11 @@ body:
       label: Final Engineering Declaration
       options:
         - label: >
-            I confirm that this Engineering Change Record accurately
-            represents the architecture, design, decision, planning,
-            implementation, validation, evidence, documentation,
-            knowledge capture, and closure of this engineering activity.
+            I confirm that the planning information recorded in this
+            Engineering Change Record is accurate at the time of
+            submission, and that implementation, validation, evidence,
+            documentation, knowledge capture, and closure sections will
+            be completed truthfully as the engineering activity
+            progresses. No commands, results, or evidence will be
+            invented.
           required: true
-          
