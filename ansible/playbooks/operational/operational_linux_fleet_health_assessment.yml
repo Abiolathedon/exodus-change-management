@@ -1,0 +1,85 @@
+###############################################################################
+# Playbook:
+#   Enterprise Linux Fleet Health Assessment
+#
+# Purpose:
+#   Perform a read-only operational health assessment across the managed
+#   Linux fleet and compare the observed runtime state with the documented
+#   EXODUS enterprise operational standards.
+#
+# Scope:
+#   - Fleet identity validation
+#   - Operating system validation
+#   - Enterprise service validation
+#   - Security posture validation
+#   - Operational health reporting
+#
+# Change Type:
+#   Read-Only Operational Validation
+#
+# Impact:
+#   No configuration changes.
+#   No service restarts.
+#   No package installation.
+#   No remediation performed.
+#
+# Execution Standard:
+#   Architecture
+#   → Known Good
+#   → Extract
+#   → Compare
+#   → Classify
+#   → Report
+#
+# Author:
+#   EXODUS Enterprise Engineering Programme
+#
+# Change Request:
+#   CR-013
+#
+# Phase:
+#   6.6.8
+###############################################################################
+
+---
+- name: Enterprise Linux Fleet Health Assessment
+  hosts: linux
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    ###########################################################################
+    # Phase 1: Managed Host Identity Validation
+    ###########################################################################
+
+    - name: Validate managed host identity
+      ansible.builtin.debug:
+        msg:
+          - "Hostname: {{ ansible_hostname }}"
+          - "FQDN: {{ ansible_fqdn }}"
+          - "Primary IPv4: {{ ansible_default_ipv4.address }}"
+
+    ###########################################################################
+    # Phase 2: Operating System Baseline Validation
+    ###########################################################################
+
+    - name: Validate operating system baseline
+      ansible.builtin.debug:
+        msg:
+          - "Distribution: {{ ansible_distribution }}"
+          - "Version: {{ ansible_distribution_version }}"
+          - "Kernel: {{ ansible_kernel }}"
+          - "Architecture: {{ ansible_architecture }}"
+
+    ###########################################################################
+    # Phase 3: Enterprise Service Discovery
+    ###########################################################################
+
+    - name: Collect service facts
+      ansible.builtin.service_facts:
+
+
+      
+
+    
