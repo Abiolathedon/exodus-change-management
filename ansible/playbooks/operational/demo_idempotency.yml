@@ -1,0 +1,18 @@
+---
+- name: Idempotency Demonstration Playbook
+  hosts: linux
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Ensure demo marker directory exists
+      ansible.builtin.file:
+        path: /tmp/exodus_playbook_demo
+        state: directory
+
+    - name: Confirm the demo ran
+      ansible.builtin.debug:
+        msg: "Demo marker ensured on {{ inventory_hostname }}"
+
+
+        
