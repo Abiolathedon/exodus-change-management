@@ -40,7 +40,6 @@
 # Phase:
 #   6.6.8
 ###############################################################################
-
 ---
 - name: Enterprise Linux Fleet Health Assessment
   hosts: linux
@@ -79,7 +78,20 @@
     - name: Collect service facts
       ansible.builtin.service_facts:
 
+    ###########################################################################
+    # Phase 4: Core Service Validation (Milestone 2)
+    ###########################################################################
 
-      
+    - name: Validate core fleet services are running
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.services['sshd.service'].state == 'running'
+          - ansible_facts.services['chronyd.service'].state == 'running'
+          - ansible_facts.services['firewalld.service'].state == 'running'
+        success_msg: "All core services (sshd, chronyd, firewalld) are running"
+        fail_msg: "One or more core services are NOT running - investigate"
 
-    
+
+
+
+        
