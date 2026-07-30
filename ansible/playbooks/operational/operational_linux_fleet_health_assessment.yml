@@ -104,4 +104,32 @@
         fail_msg: "Role service {{ item }} is NOT running - investigate"
       loop: "{{ expected_services | default([]) }}"
 
-        
+    
+    ###########################################################################
+    # Phase 6: Security Posture Validation (Milestone 2 Step 3)
+    ###########################################################################
+
+    - name: Read SSH root-login setting                            # KEYWORD name: the task's label (shows in output)
+      ansible.builtin.shell: "sshd -T | grep -i permitrootlogin"   # MODULE shell: run command to read live SSH setting
+      register: sshd_root_login                                    # KEYWORD register: save this task's output to a variable
+      changed_when: false                                          # KEYWORD changed_when: mark read-only (never reports "changed")
+
+    - name: Assert root SSH login is disabled                      # KEYWORD name: the task's label
+      ansible.builtin.assert:                                      # MODULE assert: verify a condition is true
+        that:                                                      # PARAM that: the condition(s) assert checks
+          - "'permitrootlogin no' in sshd_root_login.stdout"       # condition: saved output must contain "permitrootlogin no"
+        success_msg: "Root SSH login is disabled (secure)"         # PARAM success_msg: message shown if the check passes
+        fail_msg: "SECURITY DRIFT: root SSH login is NOT disabled" # PARAM fail_msg: message shown if the check fails
+
+    - name: Read SELinux enforcing mode                            # KEYWORD name: the task's label
+      ansible.builtin.command: "getenforce"                        # MODULE command: prints Enforcing/Permissive/Disabled
+      register: selinux_mode                                       # KEYWORD register: save this task's output to a variable
+      changed_when: false                                          # KEYWORD changed_when: mark read-only
+
+    - name: Assert SELinux is enforcing                            # KEYWORD name: the task's label
+      ansible.builtin.assert:                                      # MODULE assert: verify a condition is true
+        that:                                                      # PARAM that: the condition assert checks
+          - "selinux_mode.stdout == 'Enforcing'"                   # condition: saved output must equal exactly "Enforcing"
+        success_msg: "SELinux is enforcing (secure)"               # PARAM success_msg: message shown if the check passes
+        fail_msg: "SECURITY DRIFT: SELinux is NOT enforcing"       # PARAM fail_msg: message shown if the check fails        
+
