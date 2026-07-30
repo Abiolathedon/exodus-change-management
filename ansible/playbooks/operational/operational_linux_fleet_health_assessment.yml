@@ -92,6 +92,16 @@
         fail_msg: "One or more core services are NOT running - investigate"
 
 
+    ###########################################################################
+    # Phase 5: Role-Specific Service Validation (Milestone 2 Step 2)
+    ###########################################################################
 
+    - name: Validate role-specific services are running
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.services[item].state == 'running'
+        success_msg: "Role service {{ item }} is running"
+        fail_msg: "Role service {{ item }} is NOT running - investigate"
+      loop: "{{ expected_services | default([]) }}"
 
         

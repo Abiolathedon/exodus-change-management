@@ -1,0 +1,3 @@
+expected_services:
+  - grafana-server.service
+  
