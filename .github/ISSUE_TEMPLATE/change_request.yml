@@ -21,15 +21,32 @@ body:
       value: |
         # EXODUS Enterprise Engineering Change Record
 
-        **Template Version:** 4.1
+        **Template Version:** 4.2
         **Version Classification:** Minor
 
         **Engineering justification**
 
-        Version 4.1 corrects two duplicate dropdown option defects
+        Version 4.2 introduces ITIL 4 change-tier classification and
+        right-sizes the record to risk. It adds a single Change Tier
+        field (Standard, Normal, Emergency) in Engineering Classification,
+        and rebalances field requirement levels so that the genuine
+        planning, decision, risk, rollback, validation, and acceptance
+        core remains mandatory, while elaborative planning fields
+        (known-good comparison, enterprise-standard explanations,
+        interview learning, and secondary impact breakdowns) become
+        optional until the relevant change warrants them. No engineering
+        fields were removed. No field identifiers were changed. The
+        governance intent of versions 4.0 and 4.1 is fully preserved.
+
+        This means a Standard (routine, pre-approved, low-risk) change
+        naturally completes fewer fields, while a Normal or Emergency
+        change completes the fuller record — one template, right-sized
+        to the change, with no separate lightweight form to maintain.
+
+        Version 4.1 corrected two duplicate dropdown option defects
         (infrastructure_as_code_impact and gitops_impact) that
         prevented the GitHub Issue Form from rendering, and
-        rebalances field requirement levels so that planning fields
+        rebalanced field requirement levels so that planning fields
         are mandatory at creation while implementation, validation,
         and closure fields are optional until the relevant lifecycle
         stage is reached. No engineering fields were removed. No
@@ -154,6 +171,25 @@ body:
 ################################################################################
 # ENGINEERING CLASSIFICATION
 ################################################################################
+
+  - type: dropdown
+    id: change_tier
+    attributes:
+      label: Change Tier
+      description: >
+        ITIL 4 change classification. Standard = pre-approved, low-risk,
+        routine change following a known procedure (lighter record).
+        Normal = requires assessment and approval (full record).
+        Emergency = urgent, high-impact change resolving a major incident
+        or active threat, documented in real time. See the change
+        classification policy for tier criteria and the pre-approved
+        standard-change catalogue.
+      options:
+        - Standard
+        - Normal
+        - Emergency
+    validations:
+      required: true
 
   - type: dropdown
     id: engineering_record_type
@@ -372,7 +408,7 @@ body:
         Senior Linux Engineer
         Senior DevOps Engineer
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: support_level
@@ -455,14 +491,14 @@ body:
       label: Engineering Question
       description: State the main engineering question this activity must answer.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: why_this_activity_exists
     attributes:
       label: Why This Engineering Activity Exists
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: why_now
@@ -520,7 +556,7 @@ body:
       label: Known-Good Reference
       description: Identify the known-good system, configuration, process, or baseline.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: current_state_evidence
@@ -528,7 +564,7 @@ body:
       label: Current-State Evidence
       description: Record validated evidence describing the current state.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: comparison_summary
@@ -536,7 +572,7 @@ body:
       label: Known-Good Comparison Summary
       description: Explain the differences between the current state and known-good reference.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # CONFIGURATION DIFFERENCE CLASSIFICATION
@@ -571,7 +607,7 @@ body:
         Record architectural history, runtime validation,
         operational impact, and evidence supporting the classification.
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # ARCHITECTURE AND DESIGN
@@ -730,7 +766,7 @@ body:
       label: Professional Explanation of the Standards
       description: Explain what each standard means and why enterprises adopt it.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: standard_layman_explanation
@@ -738,7 +774,7 @@ body:
       label: Layman's Explanation of the Standards
       description: Explain the same standards in simple language.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: standard_exodus_application
@@ -746,14 +782,14 @@ body:
       label: Application to EXODUS
       description: Explain how each standard applies to the current engineering activity.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: risk_if_standard_ignored
     attributes:
       label: Risk if the Standard Is Ignored
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # INTERVIEW PERSPECTIVE
@@ -764,15 +800,18 @@ body:
       value: |
         ## Interview Perspective
 
-        Every significant engineering activity must support
-        professional learning and interview preparation.
+        Every significant engineering activity should support
+        professional learning and interview preparation. These
+        fields are optional and are most valuable for significant
+        (Normal or Emergency) changes; routine Standard changes
+        may leave them blank.
 
   - type: textarea
     id: professional_interview_question
     attributes:
       label: Professional Interview Question
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: professional_interview_answer
@@ -780,7 +819,7 @@ body:
       label: Professional Interview Answer
       description: Answer using enterprise terminology and engineering best practices.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: layman_interview_question
@@ -788,28 +827,28 @@ body:
       label: Layman's Interview Question
       description: Rephrase the same concept in simple language.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: layman_interview_answer
     attributes:
       label: Layman's Interview Answer
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: interview_follow_up_questions
     attributes:
       label: Common Interview Follow-Up Questions
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: interview_common_mistakes
     attributes:
       label: Common Interview Mistakes
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # SCOPE
@@ -948,21 +987,21 @@ body:
     attributes:
       label: Potential Failure Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: operational_impact
     attributes:
       label: Operational Impact
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: security_impact
     attributes:
       label: Security Impact
     validations:
-      required: true
+      required: false
 
 ################################################################################
 # CHANGE WINDOW AND APPROVAL
