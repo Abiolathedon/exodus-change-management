@@ -1,0 +1,270 @@
+name: "Standard Change Record"
+
+description: Submit a routine, low-risk, pre-approved EXODUS change following an established procedure. For significant, novel, or higher-risk changes use the Enterprise Engineering Change Record instead.
+
+title: "[CR-XXX] "
+
+labels:
+  - change-request
+  - risk-low
+
+assignees: []
+
+body:
+
+################################################################################
+# TEMPLATE INFORMATION
+################################################################################
+
+  - type: markdown
+    attributes:
+      value: |
+        # EXODUS Standard Change Record
+
+        **Template Version:** 1.0
+
+        Use this lightweight record for **Standard** changes only —
+        routine, low-risk, well-understood changes that follow an
+        established procedure and appear in the pre-approved
+        standard-change catalogue (see
+        docs/change-management/change-classification-policy.md).
+
+        Examples: DNS resolver correction, package install/removal via
+        an approved playbook, adding a monitoring target, routine
+        documentation updates.
+
+        If the change is novel, higher-risk, architectural, or not on
+        the pre-approved catalogue, stop and use the
+        **Enterprise Engineering Change Record** instead.
+
+        Complete planning fields before implementation.
+        Never invent commands, results, or validation evidence.
+
+################################################################################
+# IDENTIFICATION
+################################################################################
+
+  - type: input
+    id: change_request_id
+    attributes:
+      label: Change Record ID
+      description: Enter the governed EXODUS change identifier.
+      placeholder: CR-013.002
+    validations:
+      required: true
+
+  - type: input
+    id: parent_change_request
+    attributes:
+      label: Parent Change Request
+      description: Enter the parent EXODUS Change Request and issue.
+      placeholder: CR-013 — Phase 6 Automation Governance Foundation (#17)
+    validations:
+      required: true
+
+  - type: input
+    id: github_milestone
+    attributes:
+      label: GitHub Milestone
+      placeholder: EXODUS-Sprint-Phase6-Automation
+    validations:
+      required: true
+
+################################################################################
+# CLASSIFICATION
+################################################################################
+
+  - type: dropdown
+    id: change_tier
+    attributes:
+      label: Change Tier
+      description: This form is for Standard changes only. If this is not a Standard change, use the Enterprise Engineering Change Record.
+      options:
+        - Standard
+    validations:
+      required: true
+
+  - type: dropdown
+    id: engineering_domain
+    attributes:
+      label: Primary Engineering Domain
+      options:
+        - Linux
+        - Windows
+        - Active Directory
+        - Networking
+        - DNS
+        - Security
+        - Monitoring
+        - Logging
+        - Automation
+        - Infrastructure as Code
+        - Git
+        - GitHub
+        - Documentation
+        - Governance
+        - Change Management
+    validations:
+      required: true
+
+  - type: dropdown
+    id: standard_change_catalogue_item
+    attributes:
+      label: Pre-Approved Standard Change Catalogue Item
+      description: Which pre-approved standard change is this? See the classification policy catalogue.
+      options:
+        - S1 — DNS resolver correction
+        - S2 — Package install or removal
+        - S3 — Add or update a monitoring target/exporter
+        - S4 — Add or update a logging source
+        - S5 — Routine documentation update
+        - S6 — Non-behavioural config tidy-up
+        - Other equivalent low-risk routine change
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target_environment
+    attributes:
+      label: Target Environment
+      options:
+        - Laboratory
+        - Production
+        - Not Applicable
+    validations:
+      required: true
+
+################################################################################
+# CHANGE SUMMARY
+################################################################################
+
+  - type: textarea
+    id: what_and_why
+    attributes:
+      label: What and Why
+      description: Briefly state what you are changing and why. One short paragraph.
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_assets
+    attributes:
+      label: Affected Assets
+      description: List the hosts, services, files, or repositories affected.
+      placeholder: |
+        exodus-ingress-01
+        exodus-observability-01
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation_method
+    attributes:
+      label: Implementation Method
+      description: How the change is applied (e.g. Ansible role/playbook via GitOps flow).
+    validations:
+      required: true
+
+################################################################################
+# RISK AND ROLLBACK
+################################################################################
+
+  - type: dropdown
+    id: blast_radius
+    attributes:
+      label: Potential Blast Radius
+      options:
+        - Single File or Document
+        - Single Host
+        - Multiple Hosts
+        - Single Service
+        - Multiple Services
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk_and_mitigation
+    attributes:
+      label: Risk and Mitigation
+      description: The main risk(s) and how they are controlled (dry-run, scoping, verification).
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback_plan
+    attributes:
+      label: Rollback Plan
+      description: Exactly how to reverse this change if needed.
+    validations:
+      required: true
+
+################################################################################
+# VALIDATION
+################################################################################
+
+  - type: textarea
+    id: validation_plan
+    attributes:
+      label: Validation Plan
+      description: How you will confirm the change worked (the command(s) and expected result).
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: The measurable condition(s) that must be true to consider this done.
+    validations:
+      required: true
+
+################################################################################
+# EVIDENCE AND CLOSURE (completed during/after execution)
+################################################################################
+
+  - type: textarea
+    id: validation_evidence
+    attributes:
+      label: Validation Evidence
+      description: Record the actual command output / result after execution. Never invent evidence.
+    validations:
+      required: false
+
+  - type: input
+    id: commit_reference
+    attributes:
+      label: Commit Reference
+      placeholder: e.g. 4eb85e8 or Not Applicable
+    validations:
+      required: false
+
+  - type: dropdown
+    id: engineering_status
+    attributes:
+      label: Engineering Status
+      options:
+        - Planned
+        - In Progress
+        - Validation
+        - Completed
+        - Closed
+        - Rolled Back
+    validations:
+      required: true
+
+################################################################################
+# DECLARATION
+################################################################################
+
+  - type: checkboxes
+    id: standard_change_declaration
+    attributes:
+      label: Standard Change Declaration
+      options:
+        - label: >
+            I confirm this is a routine, low-risk, pre-approved Standard
+            change following an established procedure. Planning
+            information is accurate at submission, and validation
+            evidence will be recorded truthfully after execution. No
+            commands, results, or evidence will be invented.
+          required: true
