@@ -1,0 +1,23 @@
+---
+# ================================================================
+# fix-dns.yml - Correct DNS resolver drift on AD-joined nodes.
+# CR-013.002 (#19) - Standard Change, catalogue S1.
+# Applies the dns_resolver role to the 4 drifted nodes only.
+# ================================================================
+- name: Correct DNS resolver drift on AD-joined nodes
+  # [KEYWORD] hosts -> the 4 drifted nodes ONLY (scoped to ticket blast radius).
+  #           Excludes platform-01 (approved on .1), services/automation (already .157).
+  hosts: ingress,monitoring,logging
+
+  # [KEYWORD] gather_facts -> off; the role and nmcli module don't need facts.
+  gather_facts: false
+
+  # [KEYWORD] become -> root; set at play level (network config needs privilege).
+  become: true
+
+  # [KEYWORD] roles -> apply the dns_resolver role we built.
+  roles:
+    - dns_resolver
+
+
+    

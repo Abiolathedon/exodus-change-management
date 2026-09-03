@@ -1,0 +1,20 @@
+---
+# Correct the DNS resolver on AD-joined nodes to point at the AD DNS.
+- name: Ensure the correct DNS server on the network connection
+  # [MODULE] community.general.nmcli -> declaratively manage NetworkManager.
+  community.general.nmcli:
+    # [PARAMETER] conn_name -> which connection to modify (from defaults).
+    conn_name: "{{ dns_resolver_connection_name }}"
+    # [PARAMETER] type -> the connection type; ethernet for ens160.
+    type: ethernet
+    # [PARAMETER] dns4 -> the IPv4 DNS server(s) we want set (from defaults).
+    dns4:
+      - "{{ dns_resolver_correct_dns }}"
+    # [PARAMETER] state -> present = ensure this configuration exists.
+    state: present
+  # [KEYWORD] become -> root; changing network config needs privilege.
+  become: true
+  # [KEYWORD] notify -> if nmcli changed anything, reload the connection.
+  notify: Reload network connection
+
+  

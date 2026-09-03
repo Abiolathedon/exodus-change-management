@@ -1,0 +1,12 @@
+---
+# Reload the connection so NetworkManager regenerates /etc/resolv.conf.
+- name: Reload network connection
+  # [MODULE] ansible.builtin.command -> run nmcli to reload the connection.
+  ansible.builtin.command: >
+    nmcli connection up {{ dns_resolver_connection_name }}
+  # [KEYWORD] become -> root; network operations need privilege.
+  become: true
+  # [KEYWORD] changed_when -> a reload is an action, not a state change we
+  #           track; mark it changed so its effect is visible in output.
+  changed_when: true
+  

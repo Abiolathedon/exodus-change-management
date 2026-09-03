@@ -1,0 +1,7 @@
+---
+# defaults file for dns_resolver
+# The correct DNS server for AD-joined nodes (the AD DNS).
+dns_resolver_correct_dns: "192.168.0.157"
+
+# The NetworkManager connection to modify on each node.
+dns_resolver_connection_name: "ens160"
