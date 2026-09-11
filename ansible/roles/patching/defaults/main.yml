@@ -1,2 +1,17 @@
 ---
 # defaults file for patching
+# ================================================================
+# Configurable settings for the patching role.
+# These are DEFAULTS - easily overridden per host/group/tier.
+# ================================================================
+
+# How many hosts to patch at once within a tier (rolling batch size).
+# 1 = one host at a time (safest). Overridden by the playbook's serial.
+patching_batch_size: 1
+
+# Which packages to update. "*" = all available updates.
+# Could be narrowed later (e.g. security-only).
+patching_update_scope: "*"
+
+# Whether to REPORT if a reboot is required (we do NOT auto-reboot).
+patching_report_reboot: true

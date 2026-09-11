@@ -1,2 +1,83 @@
 ---
 # tasks file for patching
+# ================================================================
+# Patches a single host safely. The playbook decides HOW MANY hosts
+# at a time (serial). This role is the "what to do on each host".
+# ================================================================
+
+# ---- CHUNK 1: Check what updates are available (look before acting) ----
+- name: Check for available updates
+  # [MODULE] ansible.builtin.dnf -> the package manager for RHEL.
+  ansible.builtin.dnf:
+    # [PARAMETER] list=updates -> just LIST available updates, don't install.
+    list: updates
+  # [KEYWORD] register -> remember the result so we can see/report it.
+  register: available_updates
+  # [KEYWORD] changed_when: false -> checking is not a change; keep it "ok".
+  changed_when: false
+
+ 
+# ---- CHUNK 2: Apply the updates, safely (try / catch / finally) ----
+- name: Patch the host with error handling
+  # [KEYWORD] block -> "TRY to do these tasks".
+  block:
+    - name: Apply all available updates
+      # [MODULE] ansible.builtin.dnf -> install/update packages.
+      ansible.builtin.dnf:
+        # [PARAMETER] name -> which packages ("*" = all, from defaults).
+        name: "{{ patching_update_scope }}"
+        # [PARAMETER] state=latest -> bring them to the newest version.
+        state: latest
+      # [KEYWORD] become -> root; installing packages needs privilege.
+      become: true
+      # [KEYWORD] register -> remember the patch result.
+      register: patch_result
+
+  # [KEYWORD] rescue -> "IF the block FAILED, do this instead".
+  rescue:
+    - name: Report that patching failed on this host
+      # [MODULE] ansible.builtin.debug -> print a clear failure message.
+      ansible.builtin.debug:
+        msg: "PATCHING FAILED on {{ inventory_hostname }} - halting this host, not the whole run."
+    # [MODULE] ansible.builtin.fail -> mark this host as failed deliberately.
+    - name: Fail this host cleanly
+      ansible.builtin.fail:
+        msg: "Patching failed - see above. This host stopped; others unaffected."
+
+
+
+# ---- CHUNK 3: Check if a reboot is needed, and REPORT it (no auto-reboot) ----
+- name: Check if a reboot is required
+  # [MODULE] ansible.builtin.command -> run a check command.
+  # 'needs-restarting -r' returns rc=1 if a reboot IS needed, rc=0 if not.
+  ansible.builtin.command: needs-restarting -r
+  # [KEYWORD] become -> root; the check needs privilege.
+  become: true
+  # [KEYWORD] register -> remember the result (we read its return code).
+  register: reboot_check
+  # [KEYWORD] failed_when: false -> rc=1 is NOT a failure here, it's info.
+  failed_when: false
+  # [KEYWORD] changed_when: false -> checking changes nothing.
+  changed_when: false
+
+- name: Report reboot status
+  # [MODULE] ansible.builtin.debug -> print whether a reboot is needed.
+  ansible.builtin.debug:
+    msg: >
+      {{ inventory_hostname }} -
+      {% if reboot_check.rc == 1 %}REBOOT REQUIRED (patched a kernel/core package){% else %}no reboot needed{% endif %}
+  # [KEYWORD] when -> only report if the reboot-reporting flag is on.
+  when: patching_report_reboot | bool
+
+
+# ---- CHUNK 4: Health check - confirm the host is still alive after patching ----
+- name: Verify the host is responding (health check)
+  # [MODULE] ansible.builtin.ping -> Ansible's connectivity/health test.
+  ansible.builtin.ping:
+  # [KEYWORD] register -> remember the health result.
+  register: health_check
+
+- name: Report health status
+  # [MODULE] ansible.builtin.debug -> print the health outcome.
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }} - health check: {{ health_check.ping | default('FAILED') }}"

@@ -1,0 +1,59 @@
+---
+# ================================================================
+# patch-fleet.yml - Tiered patching promotion pipeline.
+# CR-013.003 (#20). Patches tier by tier: TEST -> STAGING -> PRODUCTION.
+# Each tier is its own PLAY. If an earlier tier fails, the playbook
+# STOPS - later tiers never run. That halting IS the promotion gate.
+# ================================================================
+
+# ---- PLAY 1: TEST tier (platform-01) - patched FIRST ----
+- name: "TIER 1 - TEST - patch and verify"
+  # [KEYWORD] hosts -> the test tier (platform-01 only).
+  hosts: test
+
+  # [KEYWORD] serial -> ROLLING BATCHES. Patch this many hosts at a time.
+  #           1 = one host at a time. (Test has 1 host, so it's one anyway.)
+  serial: 1
+
+  # [KEYWORD] become -> root at play level (patching needs privilege).
+  become: true
+
+  # [KEYWORD] any_errors_fatal -> if ANY host in this tier fails, STOP the
+  #           whole play immediately (don't limp on). This enforces the gate.
+  any_errors_fatal: true
+
+  # [KEYWORD] roles -> apply the patching role we built.
+  roles:
+    - patching
+
+  
+
+# ---- PLAY 2: STAGING tier (observability-01) - patched SECOND ----
+# Only runs if TIER 1 (test) succeeded - the promotion gate.
+- name: "TIER 2 - STAGING - patch and verify"
+  # [KEYWORD] hosts -> the staging tier (observability-01).
+  hosts: staging
+  # [KEYWORD] serial -> one host at a time (staging has 1 host).
+  serial: 1
+  become: true
+  # [KEYWORD] any_errors_fatal -> stop if staging fails (gate to production).
+  any_errors_fatal: true
+  roles:
+    - patching
+
+
+# ---- PLAY 3: PRODUCTION tier (services/grafana/ingress/logging) - LAST ----
+# Only runs if TIER 1 and TIER 2 both succeeded.
+- name: "TIER 3 - PRODUCTION - patch and verify"
+  # [KEYWORD] hosts -> the production tier (the 4 real nodes).
+  hosts: production_tier
+  # [KEYWORD] serial -> patch 2 at a time here (rolling in bigger batches).
+  #           4 nodes, 2 per batch = 2 batches. Still limits blast radius.
+  serial: 2
+  become: true
+  # [KEYWORD] any_errors_fatal -> stop the whole tier if any node fails.
+  any_errors_fatal: true
+  roles:
+    - patching   
+
+    
