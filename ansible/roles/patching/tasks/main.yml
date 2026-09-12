@@ -16,6 +16,18 @@
   # [KEYWORD] changed_when: false -> checking is not a change; keep it "ok".
   changed_when: false
 
+
+  # ---- Show WHAT updates are available (visibility / audit) ----
+- name: Show which updates are available
+  # [MODULE] ansible.builtin.debug -> print the list of available package names.
+  ansible.builtin.debug:
+    msg: >
+      {{ inventory_hostname }} - available updates:
+      {{ available_updates.results | map(attribute='name') | list }}
+  # [KEYWORD] changed_when not needed - debug never changes anything.
+
+
+
  
 # ---- CHUNK 2: Apply the updates, safely (try / catch / finally) ----
 - name: Patch the host with error handling
@@ -32,6 +44,14 @@
       become: true
       # [KEYWORD] register -> remember the patch result.
       register: patch_result
+
+    # ---- Show WHAT was actually patched (visibility / audit) ----
+    - name: Show what was patched
+      # [MODULE] ansible.builtin.debug -> print the packages that were updated.
+      ansible.builtin.debug:
+        msg: >
+          {{ inventory_hostname }} - packages updated:
+          {{ patch_result.results | default(['none - already up to date']) }}
 
   # [KEYWORD] rescue -> "IF the block FAILED, do this instead".
   rescue:
