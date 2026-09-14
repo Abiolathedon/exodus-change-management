@@ -6,12 +6,14 @@
 # ================================================================
 
 # How many hosts to patch at once within a tier (rolling batch size).
-# 1 = one host at a time (safest). Overridden by the playbook's serial.
 patching_batch_size: 1
 
-# Which packages to update. "*" = all available updates.
-# Could be narrowed later (e.g. security-only).
-patching_update_scope: "*"
+# Update strategy: "security" = security updates ONLY (safest, default).
+# Set to "all" to update everything (RISKY - can break services).
+patching_update_strategy: "security"
 
 # Whether to REPORT if a reboot is required (we do NOT auto-reboot).
 patching_report_reboot: true
+
+# Whether to verify expected_services are running AFTER patching.
+patching_verify_services: true

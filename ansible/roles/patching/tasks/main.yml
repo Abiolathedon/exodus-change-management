@@ -33,13 +33,15 @@
 - name: Patch the host with error handling
   # [KEYWORD] block -> "TRY to do these tasks".
   block:
-    - name: Apply all available updates
+    - name: Apply updates (security-only by default)
       # [MODULE] ansible.builtin.dnf -> install/update packages.
       ansible.builtin.dnf:
-        # [PARAMETER] name -> which packages ("*" = all, from defaults).
-        name: "{{ patching_update_scope }}"
-        # [PARAMETER] state=latest -> bring them to the newest version.
+        # [PARAMETER] name -> "*" means "consider all packages"...
+        name: "*"
+        # [PARAMETER] state=latest -> update to newest ALLOWED by the filters.
         state: latest
+        # [PARAMETER] security -> if strategy is "security", ONLY security updates.
+        security: "{{ patching_update_strategy == 'security' }}"
       # [KEYWORD] become -> root; installing packages needs privilege.
       become: true
       # [KEYWORD] register -> remember the patch result.
@@ -101,3 +103,26 @@
   # [MODULE] ansible.builtin.debug -> print the health outcome.
   ansible.builtin.debug:
     msg: "{{ inventory_hostname }} - health check: {{ health_check.ping | default('FAILED') }}"
+
+
+
+
+# ---- CHUNK 5: Verify expected services are RUNNING after patching ----
+- name: Gather service facts
+  # [MODULE] ansible.builtin.service_facts -> collect all services' states.
+  ansible.builtin.service_facts:
+  # [KEYWORD] when -> only if service verification is switched on.
+  when: patching_verify_services | bool
+
+- name: Assert each expected service is running
+  # [MODULE] ansible.builtin.assert -> FAIL the host if a check is false.
+  ansible.builtin.assert:
+    that:
+      # check: this service exists AND its state is 'running'
+      - "ansible_facts.services[item].state == 'running'"
+    fail_msg: "CRITICAL: {{ item }} is NOT running after patching on {{ inventory_hostname }}"
+    success_msg: "OK: {{ item }} is running on {{ inventory_hostname }}"
+  # [KEYWORD] loop -> check every service in this host's expected_services list.
+  loop: "{{ expected_services | default([]) }}"
+  # [KEYWORD] when -> only if verification is on.
+  when: patching_verify_services | bool
