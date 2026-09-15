@@ -1,0 +1,16 @@
+---
+# ================================================================
+# patch-control-node.yml - OUT-OF-BAND patch for the control node.
+# CR-013.003 (#20). automation-01 is EXCLUDED from patch-fleet.yml
+# (you can't auto-reboot the host you run from), so it is patched
+# here, deliberately, by a human. Security-only, NO auto-reboot.
+# ================================================================
+- name: "OUT-OF-BAND - patch the control node (automation-01)"
+  # [KEYWORD] hosts -> the control node only.
+  hosts: automation
+  # [KEYWORD] become -> root; patching needs privilege.
+  become: true
+  # [KEYWORD] roles -> the SAME hardened patching role (security-only).
+  roles:
+    - patching
+    
