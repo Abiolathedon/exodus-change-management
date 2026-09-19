@@ -1,0 +1,3 @@
+---
+# Non-secret variables. Secrets are referenced from the encrypted vault.yml
+opensearch_password: "{{ vault_opensearch_password }}"
