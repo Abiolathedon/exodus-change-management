@@ -1,2 +1,17 @@
 ---
 # handlers file for vector
+# ================================================================
+# Handlers run only when NOTIFIED by a changed task.
+# The config task notifies "Restart Vector" - so Vector restarts
+# only when its config actually changes (not on every run).
+# ================================================================
+
+- name: Restart Vector
+  # [MODULE] ansible.builtin.systemd -> manage the service.
+  ansible.builtin.systemd:
+    # [PARAMETER] name -> the service to restart.
+    name: vector
+    # [PARAMETER] state=restarted -> stop then start (reload the new config).
+    state: restarted
+
+    

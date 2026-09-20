@@ -1,2 +1,48 @@
 ---
 # tasks file for vector
+# ================================================================
+# Onboards a node to centralised logging (Vector -> OpenSearch).
+# Steps: repo -> install (pinned) -> config (from template) -> service.
+# Mirrors the manual Stage 2 procedure, now automated + reusable.
+# ================================================================
+
+# ---- STEP 1: Add the Vector repo (so dnf can find the package) ----
+- name: Deploy the Vector yum repository file
+  # [MODULE] ansible.builtin.copy -> copy a STATIC file as-is.
+  ansible.builtin.copy:
+    # [PARAMETER] src -> the repo file in the role's files/ folder.
+    src: vector.repo
+    dest: /etc/yum.repos.d/vector.repo
+    owner: root
+    group: root
+    mode: "0644"
+
+# ---- STEP 2: Install Vector (PINNED version, from defaults) ----
+- name: Install Vector (pinned version)
+  # [MODULE] ansible.builtin.dnf -> manage packages.
+  ansible.builtin.dnf:
+    # [PARAMETER] name -> vector at the exact pinned version (fixes drift).
+    name: "vector-{{ vector_version }}"
+    state: present
+
+# ---- STEP 3: Deploy the config from the template (password from vault) ----
+- name: Deploy the Vector config from template
+  # [MODULE] ansible.builtin.template -> render .j2 (fills {{ }}) and copy.
+  ansible.builtin.template:
+    src: vector.yaml.j2
+    dest: /etc/vector/vector.yaml
+    owner: root
+    group: root
+    mode: "0644"
+  # [KEYWORD] notify -> if the config changed, trigger the restart handler.
+  notify: Restart Vector
+
+# ---- STEP 4: Ensure Vector is enabled and running ----
+- name: Enable and start Vector
+  # [MODULE] ansible.builtin.systemd -> manage the service.
+  ansible.builtin.systemd:
+    name: vector
+    state: started
+    enabled: true
+
+    

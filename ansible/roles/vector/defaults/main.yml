@@ -1,2 +1,21 @@
 ---
 # defaults file for vector
+# ================================================================
+# Configurable settings for the vector role (easily overridable).
+# The tasks and template reference these - change values HERE, once.
+# ================================================================
+
+# Pin the Vector version so ALL nodes get the SAME version (fixes drift).
+vector_version: "0.58.0"
+
+# The OpenSearch endpoint Vector ships logs to (logging-01).
+vector_opensearch_endpoint: "https://192.168.0.156:9200"
+
+# The OpenSearch index logs are written to.
+vector_index: "exodus-logs-vector"
+
+# The OpenSearch user Vector authenticates as.
+vector_opensearch_user: "admin"
+
+
+

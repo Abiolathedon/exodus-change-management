@@ -1,0 +1,37 @@
+data_dir: "/var/lib/vector"
+
+sources:
+  exodus_journald:
+    type: journald
+
+transforms:
+  exodus_add_metadata:
+    type: remap
+    inputs:
+      - exodus_journald
+    source: |
+      .exodus_node = "{{ inventory_hostname }}"
+      .exodus_phase = "3.6"
+      .exodus_pipeline = "vector_to_opensearch"
+
+sinks:
+  exodus_opensearch:
+    type: elasticsearch
+    inputs:
+      - exodus_add_metadata
+    endpoints:
+      - "{{ vector_opensearch_endpoint }}"
+    mode: bulk
+    api_version: v8
+    compression: gzip
+    auth:
+      strategy: basic
+      user: "{{ vector_opensearch_user }}"
+      password: "{{ opensearch_password }}"
+    tls:
+      verify_certificate: false
+      verify_hostname: false
+    bulk:
+      index: "{{ vector_index }}"
+
+      
