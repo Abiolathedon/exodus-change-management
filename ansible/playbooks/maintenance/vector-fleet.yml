@@ -1,0 +1,15 @@
+---
+# ================================================================
+# vector-fleet.yml - Applies the vector role to onboard nodes to
+# centralised logging (Vector -> OpenSearch). CR-013.009 (#26).
+# Run staged with --limit: test one node first, then the fleet.
+# ================================================================
+- name: "Deploy Vector (role) to Linux nodes for centralised logging"
+  # [KEYWORD] hosts -> all Linux nodes (scope with --limit at runtime).
+  hosts: linux
+  # [KEYWORD] become -> root; installing packages + managing services.
+  become: true
+
+  # [KEYWORD] roles -> apply the vector role we built.
+  roles:
+    - vector
