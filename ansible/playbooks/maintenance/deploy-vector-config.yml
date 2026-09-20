@@ -1,0 +1,36 @@
+---
+# ================================================================
+# deploy-vector-config.yml - Config-as-code for Vector (Stage 3).
+# Renders the Vector config template (password injected from the
+# vault) and deploys it, then restarts Vector.
+# Scoped to platform-01 for Stage 3 (single node); fleet in Stage 4.
+# ================================================================
+- name: "Deploy Vector config from template (password from vault)"
+  # [KEYWORD] hosts -> which node(s). Scoped via --limit at runtime.
+  hosts: test
+  # [KEYWORD] become -> root; writing to /etc and restarting a service.
+  become: true
+
+  tasks:
+    - name: Render and deploy the Vector config from the template
+      # [MODULE] ansible.builtin.template -> renders a .j2 template
+      #          (fills {{ placeholders }}) and copies it to the target.
+      ansible.builtin.template:
+        # [PARAMETER] src -> the template file (in ansible/templates/).
+        src: ../../templates/vector.yaml.j2
+        # [PARAMETER] dest -> where the rendered config lands on the node.
+        dest: /etc/vector/vector.yaml
+        owner: root
+        group: root
+        mode: "0644"
+      # [KEYWORD] notify -> if this task changes the file, trigger the handler.
+      notify: Restart Vector
+
+  handlers:
+    - name: Restart Vector
+      # [MODULE] ansible.builtin.systemd -> restart the service.
+      ansible.builtin.systemd:
+        name: vector
+        state: restarted
+
+        
