@@ -17,3 +17,8 @@ __pycache__/
 
 # Log files
 *.log
+
+# Vault password files (never commit - secrets)
+*vault_pass*
+.vault_pass
+*.vault_pass
