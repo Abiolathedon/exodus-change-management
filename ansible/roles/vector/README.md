@@ -1,38 +1,73 @@
-Role Name
-=========
+# Vector Role
 
-A brief description of the role goes here.
+Onboards a RHEL node to **EXODUS centralised logging**. The role installs
+[Vector](https://vector.dev) (pinned version), deploys its configuration from a
+template with the OpenSearch password injected from **Ansible Vault**, and
+enables the service. Each node ships its `journald` logs to **OpenSearch** on
+`exodus-logging-01`, tagged with the node's name.
 
-Requirements
-------------
+This role brings a node from bare (no Vector) to fully shipping logs, and is
+idempotent — re-running it enforces the desired state (version, config, service).
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+- RHEL 9 node reachable from the control node.
+- Internet access to `yum.vector.dev` (the Vector package repo).
+- An encrypted Ansible Vault providing `opensearch_password` (referenced via
+  `group_vars/all/vars.yml` -> `group_vars/all/vault.yml`). Run playbooks with
+  `--ask-vault-pass` (or a vault password file).
+- OpenSearch reachable at the configured endpoint.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+Defined in `defaults/main.yml` (override as needed):
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+| Variable | Default | Purpose |
+|---|---|---|
+| `vector_version` | `"0.58.0"` | Pinned Vector version (keeps the fleet consistent). |
+| `vector_opensearch_endpoint` | `"https://192.168.0.156:9200"` | OpenSearch endpoint logs are shipped to. |
+| `vector_index` | `"exodus-logs-vector"` | OpenSearch index logs are written to. |
+| `vector_opensearch_user` | `"admin"` | OpenSearch user Vector authenticates as. |
 
-Example Playbook
-----------------
+The OpenSearch **password** is NOT a role variable — it is injected from the
+Vault as `opensearch_password` (never stored in the repo).
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Per-node values used by the template:
+- `inventory_hostname` -> tags each log with the source node (`exodus_node`).
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Dependencies
 
-License
--------
+None.
 
-BSD
+## Example Playbook
 
-Author Information
-------------------
+Apply the role via `playbooks/maintenance/vector-fleet.yml`:
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```yaml
+- name: Deploy Vector for centralised logging
+  hosts: linux
+  become: true
+  roles:
+    - vector
+```
+
+Run it (staged rollout with `--limit`):
+
+```bash
+# One node first
+ansible-playbook -i inventories/production/hosts.yml \
+  playbooks/maintenance/vector-fleet.yml \
+  --limit exodus-platform-01 --ask-vault-pass
+
+# Whole fleet
+ansible-playbook -i inventories/production/hosts.yml \
+  playbooks/maintenance/vector-fleet.yml --ask-vault-pass
+```
+
+## License
+
+MIT
+
+## Author Information
+
+Abiola Osota — EXODUS home lab (github.com/Abiolathedon).
